@@ -49,12 +49,12 @@ def pick_distribution(savefig = False):
     #Change the size of the figure
     plt.figure(figsize = (8.5, 5.5))
     #Plot a histogram of the receiver picks with bins of size 10
-    receivers['Pick'].hist(bins = range(0, 120, 10))
+    receivers['Pick'].hist(bins = range(1, 112, 10))
     #Label the plot
     plt.title('Distribution of Receivers by 10 Picks', fontsize = 18)
-    plt.xlabel('Pick (Bins of Size 10)', fontsize = 14)
+    plt.xlabel('Pick', fontsize = 14)
     plt.ylabel('Count', fontsize = 14)
-    plt.xticks(range(0, 120, 10), fontsize = 12, rotation = 0)
+    plt.xticks(range(1, 112, 10), fontsize = 12, rotation = 0)
     plt.yticks(fontsize = 12)
     #Tight layout to get it to save the figure correctly
     plt.tight_layout()
@@ -485,6 +485,7 @@ def ctr_distribution(savefig = False):
     plt.figure(figsize = (8.5, 5.5))
     #Get the catch rates, remove the percent signs, and convert them to floats
     ctch_rt = pd.to_numeric(rec_stats['Ctch%'].str.replace('%', ''))
+    #Plot the histogram of these values
     ctch_rt.hist(bins = range(0, 101, 10))
     #Label the plot
     plt.title('Distribution of Catch Rates', fontsize = 18)
@@ -501,5 +502,154 @@ def ctr_distribution(savefig = False):
         if not os.path.exists(EDA_OUTPATH):
             os.mkdir(EDA_OUTPATH)
         plt.savefig(EDA_OUTPATH + '/ctr_distribution.png')
+    plt.show()
+    return
+
+def dyar_distribution(savefig = False):
+    #Read in data
+    try:
+        adv_stats = pd.read_csv(TOP_PATH + '/data/raw/ADV_REC_STATS.csv')
+    except FileNotFoundError:
+        print('File Not Found Error (try running etl.get_data)')
+        return
+    #Change the size of the figure
+    plt.figure(figsize = (8.5, 5.5))
+    #Plot the distribution of DYAR
+    adv_stats['DYAR'].hist(bins = range(-300, 601, 100))
+    #Label the plot
+    plt.title('Distribution of DYAR', fontsize = 18)
+    plt.xlabel('DYAR', fontsize = 14)
+    plt.ylabel('Count', fontsize = 14)
+    plt.xticks(range(-300, 601, 100), fontsize = 12, rotation = 0)
+    plt.yticks(fontsize = 12)
+    #Tight layout to get it to save the figure correctly
+    plt.tight_layout()
+    #If safefig passed as true, save the figure to the eda visualizations folder
+    if savefig:
+        if not os.path.exists(VIZ_OUTPATH):
+            os.mkdir(VIZ_OUTPATH)
+        if not os.path.exists(EDA_OUTPATH):
+            os.mkdir(EDA_OUTPATH)
+        plt.savefig(EDA_OUTPATH + '/dyar_distribution.png')
+    plt.show()
+    return
+
+def yar_distribution(savefig = False):
+    #Read in data
+    try:
+        adv_stats = pd.read_csv(TOP_PATH + '/data/raw/ADV_REC_STATS.csv')
+    except FileNotFoundError:
+        print('File Not Found Error (try running etl.get_data)')
+        return
+    #Change the size of the figure
+    plt.figure(figsize = (8.5, 5.5))
+    #Plot the distribution of YAR
+    adv_stats['YAR'].hist(bins = range(-200, 601, 100))
+    #Label the plot
+    plt.title('Distribution of YAR', fontsize = 18)
+    plt.xlabel('YAR', fontsize = 14)
+    plt.ylabel('Count', fontsize = 14)
+    plt.xticks(range(-200, 601, 100), fontsize = 12, rotation = 0)
+    plt.yticks(fontsize = 12)
+    #Tight layout to get it to save the figure correctly
+    plt.tight_layout()
+    #If safefig passed as true, save the figure to the eda visualizations folder
+    if savefig:
+        if not os.path.exists(VIZ_OUTPATH):
+            os.mkdir(VIZ_OUTPATH)
+        if not os.path.exists(EDA_OUTPATH):
+            os.mkdir(EDA_OUTPATH)
+        plt.savefig(EDA_OUTPATH + '/yar_distribution.png')
+    plt.show()
+    return
+
+def eyds_distribution(savefig = False):
+    #Read in data
+    try:
+        adv_stats = pd.read_csv(TOP_PATH + '/data/raw/ADV_REC_STATS.csv')
+    except FileNotFoundError:
+        print('File Not Found Error (try running etl.get_data)')
+        return
+    #Change the size of the figure
+    plt.figure(figsize = (8.5, 5.5))
+    #Plot the distribution of EYds
+    adv_stats['EYds'].hist(bins = range(0, 2251, 250))
+    #Label the plot
+    plt.title('Distribution of Effective Yards', fontsize = 18)
+    plt.xlabel('EYds', fontsize = 14)
+    plt.ylabel('Count', fontsize = 14)
+    plt.xticks(range(0, 2251, 250), fontsize = 12, rotation = 0)
+    plt.yticks(fontsize = 12)
+    #Tight layout to get it to save the figure correctly
+    plt.tight_layout()
+    #If safefig passed as true, save the figure to the eda visualizations folder
+    if savefig:
+        if not os.path.exists(VIZ_OUTPATH):
+            os.mkdir(VIZ_OUTPATH)
+        if not os.path.exists(EDA_OUTPATH):
+            os.mkdir(EDA_OUTPATH)
+        plt.savefig(EDA_OUTPATH + '/eyds_distribution.png')
+    plt.show()
+    return
+
+def dvoa_distribution(savefig = False):
+    #Read in data
+    try:
+        adv_stats = pd.read_csv(TOP_PATH + '/data/raw/ADV_REC_STATS.csv')
+    except FileNotFoundError:
+        print('File Not Found Error (try running etl.get_data)')
+        return
+    #Change the size of the figure
+    plt.figure(figsize = (8.5, 5.5))
+    #Convert dvoa to a format where distribution can be plotted
+    dvoa = pd.to_numeric(adv_stats['DVOA'].str.replace('%', ''))
+    #Plot the distribution of DVOA
+    dvoa.hist(bins = range(-50, 71, 10))
+    #Label the plot
+    plt.title('Distribution of DVOA', fontsize = 18)
+    plt.xlabel('DVOA (%)', fontsize = 14)
+    plt.ylabel('Count', fontsize = 14)
+    plt.xticks(range(-50, 71, 10), fontsize = 12, rotation = 0)
+    plt.yticks(fontsize = 12)
+    #Tight layout to get it to save the figure correctly
+    plt.tight_layout()
+    #If safefig passed as true, save the figure to the eda visualizations folder
+    if savefig:
+        if not os.path.exists(VIZ_OUTPATH):
+            os.mkdir(VIZ_OUTPATH)
+        if not os.path.exists(EDA_OUTPATH):
+            os.mkdir(EDA_OUTPATH)
+        plt.savefig(EDA_OUTPATH + '/dvoa_distribution.png')
+    plt.show()
+    return
+
+def voa_distribution(savefig = False):
+    #Read in data
+    try:
+        adv_stats = pd.read_csv(TOP_PATH + '/data/raw/ADV_REC_STATS.csv')
+    except FileNotFoundError:
+        print('File Not Found Error (try running etl.get_data)')
+        return
+    #Change the size of the figure
+    plt.figure(figsize = (8.5, 5.5))
+    #Convert dvoa to a format where distribution can be plotted
+    voa = pd.to_numeric(adv_stats['VOA'].str.replace('%', ''))
+    #Plot the distribution of VOA
+    voa.hist(bins = range(-60, 71, 10))
+    #Label the plot
+    plt.title('Distribution of VOA', fontsize = 18)
+    plt.xlabel('VOA (%)', fontsize = 14)
+    plt.ylabel('Count', fontsize = 14)
+    plt.xticks(range(-60, 71, 10), fontsize = 12, rotation = 0)
+    plt.yticks(fontsize = 12)
+    #Tight layout to get it to save the figure correctly
+    plt.tight_layout()
+    #If safefig passed as true, save the figure to the eda visualizations folder
+    if savefig:
+        if not os.path.exists(VIZ_OUTPATH):
+            os.mkdir(VIZ_OUTPATH)
+        if not os.path.exists(EDA_OUTPATH):
+            os.mkdir(EDA_OUTPATH)
+        plt.savefig(EDA_OUTPATH + '/voa_distribution.png')
     plt.show()
     return

@@ -1,3 +1,5 @@
+Basic Receiving Stats Courtesy of Pro Football Reference
+
 Age -- Player's age on December 31st of that year
 
 Pos -- Position

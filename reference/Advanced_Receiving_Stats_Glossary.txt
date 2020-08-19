@@ -1,31 +1,16 @@
+Advanced Receiving Stats Courtesy of Football Outsiders
+
 DYAR: 
-Defense-adjusted Yards Above Replacement. A Football Outsiders stat which compares the performance of each player, 
-in terms of DVOA, to a replacement-level baseline rather than the league average for that position, 
-then translates that total into yardage. Because DYAR is a total stat, not a rate stat, 
-it helps show the importance of workhorse running backs and receivers who can draw the attention 
-of the defense away from other players. DYAR replaced DPAR as our method for measuring individual 
-players with the publication of Pro Football Prospectus 2008 in July 2008.
+Defense-adjusted Yards Above Replacement. A Football Outsiders stat which compares the performance of each player, in terms of DVOA, to a replacement-level baseline rather than the league average for that position, then translates that total into yardage. Because DYAR is a total stat, not a rate stat, it helps show the importance of workhorse running backs and receivers who can draw the attention of the defense away from other players. DYAR replaced DPAR as our method for measuring individual players with the publication of Pro Football Prospectus 2008 in July 2008.
 
 YAR: 
 Yards Above Replacement. This is DYAR without opponent adjustments. 
 
 DVOA: 
-The main statistic used on Football Outsiders, DVOA breaks down the entire season play-by-play, 
-comparing success on each play to the league average based on a number of variables including down, 
-distance, location on field, current score gap, quarter, and opponent quality. While it can be used 
-as a measure of total team performance, it differs from other power ratings found throughout the Web 
-because it can be broken down to analyze team effectiveness in any number of ways: down, quarter, rushing 
-vs. receiving, location on field, passes to backs vs. passes to receivers, and so on. Read the article 
-METHODS TO THE MADNESS for more information. DVOA stands for Defense-adjusted Value Over Average, 
-although we use the same letters to refer to defensive rankings which are adjusted to take into account 
-the quality of offensive opponents.
+The main statistic used on Football Outsiders, DVOA breaks down the entire season play-by-play, comparing success on each play to the league average based on a number of variables including down, distance, location on field, current score gap, quarter, and opponent quality. While it can be used as a measure of total team performance, it differs from other power ratings found throughout the Web because it can be broken down to analyze team effectiveness in any number of ways: down, quarter, rushing vs. receiving, location on field, passes to backs vs. passes to receivers, and so on. Read the article METHODS TO THE MADNESS for more information. DVOA stands for Defense-adjusted Value Over Average, although we use the same letters to refer to defensive rankings which are adjusted to take into account the quality of offensive opponents.
 
 VOA:
 DVOA when not adjusted for opponent
 
 EYds (Effective Yards): 
-This metric translates DVOA into a yards per attempt figure. This provides an easy comparison: 
-in general, players with more Effective Yards than standard yards played better than standard stats 
-would otherwise indicate, while players with fewer Effective Yards than standard yards played worse 
-than standard stats would otherwise indicate. Effective Yards are not the best way to measure total 
-value because they are more dependent on usage than DYAR.
+This metric translates DVOA into a yards per attempt figure. This provides an easy comparison: in general, players with more Effective Yards than standard yards played better than standard stats would otherwise indicate, while players with fewer Effective Yards than standard yards played worse than standard stats would otherwise indicate. Effective Yards are not the best way to measure total value because they are more dependent on usage than DYAR.

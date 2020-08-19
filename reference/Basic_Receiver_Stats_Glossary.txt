@@ -1,0 +1,42 @@
+Age -- Player's age on December 31st of that year
+
+Pos -- Position
+In player and team season stats,
+Capitals indicates primary starter.
+Lower-case means part-time starter.
+
+G -- Games played
+
+GS -- Games started as an offensive or defensive player
+
+Tgt -- Pass Targets (since 1992, derived from NFL play-by-play data)
+
+Rec -- Receptions
+
+Ctch% -- Catch%, receptions divided by targets (since 1992)
+
+Yds -- Receiving Yards
+
+Y/R -- Receiving Yards per Reception
+Minimum 1.875 catches per game scheduled to qualify as leader.
+Minimum 200 receptions to qualify as career leader.
+
+TD -- Receiving Touchdowns
+
+1D -- First downs receiving
+
+Lng -- Longest Reception
+
+Y/Tgt -- Receiving Yards per Target (target numbers since 1992)
+
+R/G -- Receptions per Game
+(minimum half a game per game scheduled to qualify as leader)
+(Receptions)/(Games Played)
+
+Y/G -- Receiving Yards per Game
+(minimum half a game played per game scheduled to qualify as leader, 32 games for career leaders)
+(Receiving Yards)/(Games Played)
+
+Fmb -- Number of times fumbled both lost and recovered by own team
+These represent ALL fumbles by the player on offense, defense, and special teams.
+Available for player games since 2008.

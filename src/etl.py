@@ -1,3 +1,5 @@
+#@Tommy Evans-Barton
+
 import os
 import pandas as pd
 import numpy as np
@@ -33,7 +35,7 @@ def get_receivers(year):
     df['YEAR'] = [year] * len(df)
     df = df.drop(['Approx Val CarAV', 'Approx Val DrAV'], axis = 1, errors = 'ignore')
     #Only want receivers drafted on first two days (first three rounds)
-    df = df[df['Pos'] == 'WR'].reset_index(drop = True)
+    df = df[df['Pos'].str.lower() == 'wr'].reset_index(drop = True)
     df = df[[int(x) <= 3 for x in df['Rnd']]]
     #Drop columns that I won't use for this analysis
     df = df[['Rnd', 'Pick', 'Tm', 'Player', 'Pos', 'Age', 'YEAR']]
@@ -46,8 +48,10 @@ def get_receiving_stats(year):
     #Gets the DataFrame from this website, 0 because there are multiple dataframes on this page
     df = pd.read_html(url)[0]
     #Take only receivers
-    df = df[df['Pos'] == 'WR'].reset_index(drop = True)
+    df = df[df['Pos'].str.lower() == 'wr'].reset_index(drop = True)
     df.drop(['Rk'], inplace = True, axis = 1)
+    #Want a column in the table with the year for easier merging later
+    df['YEAR'] = [year] * len(df)
     return df
 
 def get_adv_receiving_stats(year):
@@ -61,27 +65,37 @@ def get_adv_receiving_stats(year):
     df = df[cols]
     #Remove redundant columns
     df.drop(['TD', 'Catch  Rate', 'Catch Rate', 'CatchRate', 'FUM'], inplace = True, axis = 1, errors = 'ignore')
+    #Want a column in the table with the year for easier merging later
+    df['YEAR'] = [year] * len(df)
     return df
 
 def get_data(years, outpath):
     #Check if the outpath exists, if not, make it
     if not os.path.exists(TOP_PATH + outpath):
         os.mkdir(TOP_PATH + outpath)
-    #Get receivers and their stats for each year passed 
+    #Instantiate lists to append dataframes and later concatenate them
+    receivers_df_list = []
+    rec_stats_df_list = []
+    adv_rec_df_list = []
+    #Get receivers and their stats for each year passed and append them to appropriate lists
     for y in years:
         try:
-            get_receivers(y).to_csv(TOP_PATH + outpath + '/RECEIVERS_' + str(y) + '.csv', index = False)
+            receivers_df_list.append(get_receivers(y))
         except urllib.error.HTTPError:
             print('No receivers for draft for {year}'.format(year = y))
             pass
         try:
-            get_receiving_stats(y).to_csv(TOP_PATH + outpath + '/REC_STATS_' + str(y) + '.csv', index = False)
+            rec_stats_df_list.append(get_receiving_stats(y))
         except urllib.error.HTTPError:
             print('No receiver stats for {year}'.format(year = y))
             pass
         try:
-            get_adv_receiving_stats(y).to_csv(TOP_PATH + outpath + '/ADV_REC_STATS_' + str(y) + '.csv', index = False)
+            adv_rec_df_list.append(get_adv_receiving_stats(y))
         except urllib.error.HTTPError:
             print('No advanced receiving stats for {year}'.format(year = y))
             pass
+    #Concatenate dataframes and save them into .CSV format
+    pd.concat(receivers_df_list).reset_index(drop = True).to_csv(TOP_PATH + outpath + '/RECEIVERS.csv', index = False)
+    pd.concat(rec_stats_df_list).reset_index(drop = True).to_csv(TOP_PATH + outpath + '/REC_STATS.csv', index = False)
+    pd.concat(adv_rec_df_list).reset_index(drop = True).to_csv(TOP_PATH + outpath + '/ADV_REC_STATS.csv', index = False)
     return

@@ -63,10 +63,12 @@ def get_adv_receiving_stats(year):
     #Remove ranking columns
     cols = [c for c in df.columns if c.lower()[:2] != 'rk']
     df = df[cols]
-    #Remove redundant columns
-    df.drop(['TD', 'Catch  Rate', 'Catch Rate', 'CatchRate', 'FUM'], inplace = True, axis = 1, errors = 'ignore')
+    #Remove redundant columns (columns present in other data sets used)
+    df.drop(['TD', 'Catch  Rate', 'Catch Rate', 'CatchRate', 'FUM', 'Passes', 'Yards'], inplace = True, axis = 1, errors = 'ignore')
     #Want a column in the table with the year for easier merging later
     df['YEAR'] = [year] * len(df)
+    #Remove artificial rows without information in them
+    df = df[df['Team'] != 'Team'].reset_index(drop = True)
     return df
 
 def get_data(years, outpath):

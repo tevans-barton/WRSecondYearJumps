@@ -416,6 +416,35 @@ def rpg_distribution(savefig = False):
     plt.show()
     return
 
+def ypg_distribution(savefig = False):
+    #Read in data
+    try:
+        rec_stats = pd.read_csv(TOP_PATH + '/data/raw/REC_STATS.csv')
+    except FileNotFoundError:
+        print('File Not Found Error (try running etl.get_data)')
+        return
+    #Change the size of the figure
+    plt.figure(figsize = (8.5, 5.5))
+    #Plot the distribution of the Yards per Game for each receiver
+    rec_stats['Y/G'].hist(bins = range(0, 136, 15))
+    #Label the plot
+    plt.title('Distribution of Yards per Game', fontsize = 18)
+    plt.xlabel('Yards per Game', fontsize = 14)
+    plt.ylabel('Count', fontsize = 14)
+    plt.xticks(range(0, 136, 15), fontsize = 12, rotation = 0)
+    plt.yticks(fontsize = 12)
+    #Tight layout to get it to save the figure correctly
+    plt.tight_layout()
+    #If safefig passed as true, save the figure to the eda visualizations folder
+    if savefig:
+        if not os.path.exists(VIZ_OUTPATH):
+            os.mkdir(VIZ_OUTPATH)
+        if not os.path.exists(EDA_OUTPATH):
+            os.mkdir(EDA_OUTPATH)
+        plt.savefig(EDA_OUTPATH + '/ypg_distribution.png')
+    plt.show()
+    return
+
 def fmb_distribution(savefig = False):
     #Read in data
     try:
@@ -442,5 +471,35 @@ def fmb_distribution(savefig = False):
         if not os.path.exists(EDA_OUTPATH):
             os.mkdir(EDA_OUTPATH)
         plt.savefig(EDA_OUTPATH + '/fmb_distribution.png')
+    plt.show()
+    return
+
+def ctr_distribution(savefig = False):
+    #Read in data
+    try:
+        rec_stats = pd.read_csv(TOP_PATH + '/data/raw/REC_STATS.csv')
+    except FileNotFoundError:
+        print('File Not Found Error (try running etl.get_data)')
+        return
+    #Change the size of the figure
+    plt.figure(figsize = (8.5, 5.5))
+    #Get the catch rates, remove the percent signs, and convert them to floats
+    ctch_rt = pd.to_numeric(rec_stats['Ctch%'].str.replace('%', ''))
+    ctch_rt.hist(bins = range(0, 101, 10))
+    #Label the plot
+    plt.title('Distribution of Catch Rates', fontsize = 18)
+    plt.xlabel('Catch Rates (%)', fontsize = 14)
+    plt.ylabel('Count', fontsize = 14)
+    plt.xticks(range(0, 101, 10), fontsize = 12, rotation = 0)
+    plt.yticks(fontsize = 12)
+    #Tight layout to get it to save the figure correctly
+    plt.tight_layout()
+    #If safefig passed as true, save the figure to the eda visualizations folder
+    if savefig:
+        if not os.path.exists(VIZ_OUTPATH):
+            os.mkdir(VIZ_OUTPATH)
+        if not os.path.exists(EDA_OUTPATH):
+            os.mkdir(EDA_OUTPATH)
+        plt.savefig(EDA_OUTPATH + '/ctr_distribution.png')
     plt.show()
     return

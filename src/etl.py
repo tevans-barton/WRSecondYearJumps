@@ -47,8 +47,8 @@ def get_receiving_stats(year):
     url = REC_URL_PREFIX + str(year) + '/receiving.htm'
     #Gets the DataFrame from this website, 0 because there are multiple dataframes on this page
     df = pd.read_html(url)[0]
-    #Take only receivers
-    df = df[df['Pos'].str.lower() == 'wr'].reset_index(drop = True)
+    #Take only receivers and null entries to get all pass catchers
+    df = df[(df['Pos'].str.lower() == 'wr') | (df['Pos'].isnull())].reset_index(drop = True)
     df.drop(['Rk'], inplace = True, axis = 1)
     #Want a column in the table with the year for easier merging later
     df['YEAR'] = [year] * len(df)

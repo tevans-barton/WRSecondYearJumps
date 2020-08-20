@@ -19,9 +19,9 @@ def load_params(fp):
 
 def main(targets):
     if 'clean' in targets:
-        shutil.rmtree('data/raw', ignore_errors=True)
-        shutil.rmtree('data/interim', ignore_errors=True)
-        shutil.rmtree('data/final', ignore_errors=True)
+        shutil.rmtree(TOP_PATH + '/data/raw', ignore_errors=True)
+        shutil.rmtree(TOP_PATH + '/data/interim', ignore_errors=True)
+        shutil.rmtree(TOP_PATH + '/data/final', ignore_errors=True)
 
     if 'data' in targets:
         cfg = load_params(TOP_PATH + DATA_PARAMS)

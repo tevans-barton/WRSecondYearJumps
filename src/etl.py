@@ -58,16 +58,22 @@ def get_adv_receiving_stats(year):
     #Want url to have form 'https://www.footballoutsiders.com/stats/nfl/wr/2010'
     ADV_URL_PREFIX = 'https://www.footballoutsiders.com/stats/nfl/wr/'
     url = ADV_URL_PREFIX + str(year)
-    #Gets the DataFrame from this website, 0 because there are multiple dataframes on this page
-    df = pd.read_html(url, header = 0)[0]
+    #Gets the first DataFrame from this website, receivers with at least 50 passes
+    df_1 = pd.read_html(url, header = 0)[0]
+    #Gets the second DataFrame from this website, receivers with 10 to 49 passes
+    df_2 = pd.read_html(url, header = 0)[1]
     #Remove ranking columns
-    cols = [c for c in df.columns if c.lower()[:2] != 'rk']
-    df = df[cols]
+    cols = [c for c in df_1.columns if c.lower()[:2] != 'rk']
+    df_1 = df_1[cols]
+    df_2 = df_2[cols]
     #Remove redundant columns (columns present in other data sets used)
-    df.drop(['TD', 'Catch  Rate', 'Catch Rate', 'CatchRate', 'FUM', 'Passes', 'Yards'], inplace = True, axis = 1, errors = 'ignore')
+    df_1.drop(['TD', 'Catch  Rate', 'Catch Rate', 'CatchRate', 'FUM', 'Passes', 'Yards'], inplace = True, axis = 1, errors = 'ignore')
+    df_2.drop(['TD', 'Catch  Rate', 'Catch Rate', 'CatchRate', 'FUM', 'Passes', 'Yards'], inplace = True, axis = 1, errors = 'ignore')
     #Want a column in the table with the year for easier merging later
-    df['YEAR'] = [year] * len(df)
-    #Remove artificial rows without information in them
+    df_1['YEAR'] = [year] * len(df_1)
+    df_2['YEAR'] = [year] * len(df_2)
+    df = pd.concat([df_1, df_2]).reset_index(drop = True)
+    #Remove non-data columns
     df = df[df['Team'] != 'Team'].reset_index(drop = True)
     return df
 

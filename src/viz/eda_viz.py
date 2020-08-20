@@ -573,12 +573,12 @@ def eyds_distribution(savefig = False):
     #Change the size of the figure
     plt.figure(figsize = (8.5, 5.5))
     #Plot the distribution of EYds
-    adv_stats['EYds'].hist(bins = range(0, 2251, 250))
+    adv_stats['EYds'].hist(bins = range(-250, 2251, 250))
     #Label the plot
     plt.title('Distribution of Effective Yards', fontsize = 18)
     plt.xlabel('EYds', fontsize = 14)
     plt.ylabel('Count', fontsize = 14)
-    plt.xticks(range(0, 2251, 250), fontsize = 12, rotation = 0)
+    plt.xticks(range(-250, 2251, 250), fontsize = 12, rotation = 0)
     plt.yticks(fontsize = 12)
     #Tight layout to get it to save the figure correctly
     plt.tight_layout()
@@ -604,12 +604,12 @@ def dvoa_distribution(savefig = False):
     #Convert dvoa to a format where distribution can be plotted
     dvoa = pd.to_numeric(adv_stats['DVOA'].str.replace('%', ''))
     #Plot the distribution of DVOA
-    dvoa.hist(bins = range(-50, 71, 10))
+    dvoa.hist(bins = range(-90, 111, 10))
     #Label the plot
     plt.title('Distribution of DVOA', fontsize = 18)
     plt.xlabel('DVOA (%)', fontsize = 14)
     plt.ylabel('Count', fontsize = 14)
-    plt.xticks(range(-50, 71, 10), fontsize = 12, rotation = 0)
+    plt.xticks(range(-90, 111, 10), fontsize = 12, rotation = 0)
     plt.yticks(fontsize = 12)
     #Tight layout to get it to save the figure correctly
     plt.tight_layout()
@@ -635,12 +635,12 @@ def voa_distribution(savefig = False):
     #Convert dvoa to a format where distribution can be plotted
     voa = pd.to_numeric(adv_stats['VOA'].str.replace('%', ''))
     #Plot the distribution of VOA
-    voa.hist(bins = range(-60, 71, 10))
+    voa.hist(bins = range(-100, 121, 20))
     #Label the plot
     plt.title('Distribution of VOA', fontsize = 18)
     plt.xlabel('VOA (%)', fontsize = 14)
     plt.ylabel('Count', fontsize = 14)
-    plt.xticks(range(-60, 71, 10), fontsize = 12, rotation = 0)
+    plt.xticks(range(-100, 121, 20), fontsize = 12, rotation = 0)
     plt.yticks(fontsize = 12)
     #Tight layout to get it to save the figure correctly
     plt.tight_layout()

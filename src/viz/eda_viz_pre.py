@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 plt.style.use('ggplot')
 TOP_PATH = os.environ['PWD']
 VIZ_OUTPATH = TOP_PATH + '/visualizations'
-EDA_OUTPATH = TOP_PATH + '/visualizations/eda'
+EDA_PRE_OUTPATH = TOP_PATH + '/visualizations/eda_pre_cleaning'
 
 def round_distribution(savefig = False):
     #Read in data
@@ -34,9 +34,9 @@ def round_distribution(savefig = False):
     if savefig:
         if not os.path.exists(VIZ_OUTPATH):
             os.mkdir(VIZ_OUTPATH)
-        if not os.path.exists(EDA_OUTPATH):
-            os.mkdir(EDA_OUTPATH)
-        plt.savefig(EDA_OUTPATH + '/round_distribution.png')
+        if not os.path.exists(EDA_PRE_OUTPATH):
+            os.mkdir(EDA_PRE_OUTPATH)
+        plt.savefig(EDA_PRE_OUTPATH + '/round_distribution.png')
     plt.show()
 
 def pick_distribution(savefig = False):
@@ -62,9 +62,9 @@ def pick_distribution(savefig = False):
     if savefig:
         if not os.path.exists(VIZ_OUTPATH):
             os.mkdir(VIZ_OUTPATH)
-        if not os.path.exists(EDA_OUTPATH):
-            os.mkdir(EDA_OUTPATH)
-        plt.savefig(EDA_OUTPATH + '/pick_distribution.png')
+        if not os.path.exists(EDA_PRE_OUTPATH):
+            os.mkdir(EDA_PRE_OUTPATH)
+        plt.savefig(EDA_PRE_OUTPATH + '/pick_distribution.png')
     plt.show()
 
 
@@ -91,9 +91,9 @@ def age_distribution(savefig = False):
     if savefig:
         if not os.path.exists(VIZ_OUTPATH):
             os.mkdir(VIZ_OUTPATH)
-        if not os.path.exists(EDA_OUTPATH):
-            os.mkdir(EDA_OUTPATH)
-        plt.savefig(EDA_OUTPATH + '/age_distribution.png')
+        if not os.path.exists(EDA_PRE_OUTPATH):
+            os.mkdir(EDA_PRE_OUTPATH)
+        plt.savefig(EDA_PRE_OUTPATH + '/age_distribution.png')
     plt.show()
     return
 
@@ -120,9 +120,9 @@ def game_distribution(savefig = False):
     if savefig:
         if not os.path.exists(VIZ_OUTPATH):
             os.mkdir(VIZ_OUTPATH)
-        if not os.path.exists(EDA_OUTPATH):
-            os.mkdir(EDA_OUTPATH)
-        plt.savefig(EDA_OUTPATH + '/games_distribution.png')
+        if not os.path.exists(EDA_PRE_OUTPATH):
+            os.mkdir(EDA_PRE_OUTPATH)
+        plt.savefig(EDA_PRE_OUTPATH + '/games_distribution.png')
     plt.show()
     return
 
@@ -136,7 +136,7 @@ def gs_distribution(savefig = False):
     #Change the size of the figure
     plt.figure(figsize = (8.5, 5.5))
     #Plot the distribution of the games started for each receiver
-    rec_stats['GS'].hist(bins = range(0,19,2))
+    rec_stats['GS'].hist(bins = range(0,19,1))
     #Label the plot
     plt.title('Distribution of Games Started', fontsize = 18)
     plt.xlabel('Games Started', fontsize = 14)
@@ -149,9 +149,9 @@ def gs_distribution(savefig = False):
     if savefig:
         if not os.path.exists(VIZ_OUTPATH):
             os.mkdir(VIZ_OUTPATH)
-        if not os.path.exists(EDA_OUTPATH):
-            os.mkdir(EDA_OUTPATH)
-        plt.savefig(EDA_OUTPATH + '/games_started_distribution.png')
+        if not os.path.exists(EDA_PRE_OUTPATH):
+            os.mkdir(EDA_PRE_OUTPATH)
+        plt.savefig(EDA_PRE_OUTPATH + '/games_started_distribution.png')
     plt.show()
     return
 
@@ -165,12 +165,12 @@ def tgt_distribution(savefig = False):
     #Change the size of the figure
     plt.figure(figsize = (8.5, 5.5))
     #Plot the distribution of the targets for each receiver
-    rec_stats['Tgt'].hist(bins = range(0, 226, 25))
+    rec_stats['Tgt'].hist(bins = range(0, 220, 10))
     #Label the plot
     plt.title('Distribution of Targets', fontsize = 18)
     plt.xlabel('Targets', fontsize = 14)
     plt.ylabel('Count', fontsize = 14)
-    plt.xticks(range(0, 226, 25), fontsize = 12, rotation = 0)
+    plt.xticks(range(0, 220, 20), fontsize = 12, rotation = 0)
     plt.yticks(fontsize = 12)
     #Tight layout to get it to save the figure correctly
     plt.tight_layout()
@@ -178,9 +178,9 @@ def tgt_distribution(savefig = False):
     if savefig:
         if not os.path.exists(VIZ_OUTPATH):
             os.mkdir(VIZ_OUTPATH)
-        if not os.path.exists(EDA_OUTPATH):
-            os.mkdir(EDA_OUTPATH)
-        plt.savefig(EDA_OUTPATH + '/targets_distribution.png')
+        if not os.path.exists(EDA_PRE_OUTPATH):
+            os.mkdir(EDA_PRE_OUTPATH)
+        plt.savefig(EDA_PRE_OUTPATH + '/targets_distribution.png')
     plt.show()
     return
 
@@ -194,12 +194,12 @@ def rec_distribution(savefig = False):
     #Change the size of the figure
     plt.figure(figsize = (8.5, 5.5))
     #Plot the distribution of the receptions for each receiver
-    rec_stats['Rec'].hist(bins = range(0, 161, 20))
+    rec_stats['Rec'].hist(bins = range(0, 151, 10))
     #Label the plot
     plt.title('Distribution of Receptions', fontsize = 18)
     plt.xlabel('Receptions', fontsize = 14)
     plt.ylabel('Count', fontsize = 14)
-    plt.xticks(range(0, 161, 20), fontsize = 12, rotation = 0)
+    plt.xticks(range(0, 151, 20), fontsize = 12, rotation = 0)
     plt.yticks(fontsize = 12)
     #Tight layout to get it to save the figure correctly
     plt.tight_layout()
@@ -207,9 +207,9 @@ def rec_distribution(savefig = False):
     if savefig:
         if not os.path.exists(VIZ_OUTPATH):
             os.mkdir(VIZ_OUTPATH)
-        if not os.path.exists(EDA_OUTPATH):
-            os.mkdir(EDA_OUTPATH)
-        plt.savefig(EDA_OUTPATH + '/receptions_distribution.png')
+        if not os.path.exists(EDA_PRE_OUTPATH):
+            os.mkdir(EDA_PRE_OUTPATH)
+        plt.savefig(EDA_PRE_OUTPATH + '/receptions_distribution.png')
     plt.show()
     return
 
@@ -236,9 +236,9 @@ def yards_distribution(savefig = False):
     if savefig:
         if not os.path.exists(VIZ_OUTPATH):
             os.mkdir(VIZ_OUTPATH)
-        if not os.path.exists(EDA_OUTPATH):
-            os.mkdir(EDA_OUTPATH)
-        plt.savefig(EDA_OUTPATH + '/rec_yards_distribution.png')
+        if not os.path.exists(EDA_PRE_OUTPATH):
+            os.mkdir(EDA_PRE_OUTPATH)
+        plt.savefig(EDA_PRE_OUTPATH + '/rec_yards_distribution.png')
     plt.show()
     return
 
@@ -265,9 +265,9 @@ def ypr_distribution(savefig = False):
     if savefig:
         if not os.path.exists(VIZ_OUTPATH):
             os.mkdir(VIZ_OUTPATH)
-        if not os.path.exists(EDA_OUTPATH):
-            os.mkdir(EDA_OUTPATH)
-        plt.savefig(EDA_OUTPATH + '/ypr_distribution.png')
+        if not os.path.exists(EDA_PRE_OUTPATH):
+            os.mkdir(EDA_PRE_OUTPATH)
+        plt.savefig(EDA_PRE_OUTPATH + '/ypr_distribution.png')
     plt.show()
     return
 
@@ -294,9 +294,9 @@ def td_distribution(savefig = False):
     if savefig:
         if not os.path.exists(VIZ_OUTPATH):
             os.mkdir(VIZ_OUTPATH)
-        if not os.path.exists(EDA_OUTPATH):
-            os.mkdir(EDA_OUTPATH)
-        plt.savefig(EDA_OUTPATH + '/td_distribution.png')
+        if not os.path.exists(EDA_PRE_OUTPATH):
+            os.mkdir(EDA_PRE_OUTPATH)
+        plt.savefig(EDA_PRE_OUTPATH + '/td_distribution.png')
     plt.show()
     return
 
@@ -323,9 +323,9 @@ def fd_distribution(savefig = False):
     if savefig:
         if not os.path.exists(VIZ_OUTPATH):
             os.mkdir(VIZ_OUTPATH)
-        if not os.path.exists(EDA_OUTPATH):
-            os.mkdir(EDA_OUTPATH)
-        plt.savefig(EDA_OUTPATH + '/fd_distribution.png')
+        if not os.path.exists(EDA_PRE_OUTPATH):
+            os.mkdir(EDA_PRE_OUTPATH)
+        plt.savefig(EDA_PRE_OUTPATH + '/fd_distribution.png')
     plt.show()
     return
 
@@ -352,9 +352,9 @@ def long_distribution(savefig = False):
     if savefig:
         if not os.path.exists(VIZ_OUTPATH):
             os.mkdir(VIZ_OUTPATH)
-        if not os.path.exists(EDA_OUTPATH):
-            os.mkdir(EDA_OUTPATH)
-        plt.savefig(EDA_OUTPATH + '/lng_distribution.png')
+        if not os.path.exists(EDA_PRE_OUTPATH):
+            os.mkdir(EDA_PRE_OUTPATH)
+        plt.savefig(EDA_PRE_OUTPATH + '/lng_distribution.png')
     plt.show()
     return
 
@@ -381,9 +381,9 @@ def ypt_distribution(savefig = False):
     if savefig:
         if not os.path.exists(VIZ_OUTPATH):
             os.mkdir(VIZ_OUTPATH)
-        if not os.path.exists(EDA_OUTPATH):
-            os.mkdir(EDA_OUTPATH)
-        plt.savefig(EDA_OUTPATH + '/ypt_distribution.png')
+        if not os.path.exists(EDA_PRE_OUTPATH):
+            os.mkdir(EDA_PRE_OUTPATH)
+        plt.savefig(EDA_PRE_OUTPATH + '/ypt_distribution.png')
     plt.show()
     return
 
@@ -410,9 +410,9 @@ def rpg_distribution(savefig = False):
     if savefig:
         if not os.path.exists(VIZ_OUTPATH):
             os.mkdir(VIZ_OUTPATH)
-        if not os.path.exists(EDA_OUTPATH):
-            os.mkdir(EDA_OUTPATH)
-        plt.savefig(EDA_OUTPATH + '/rpg_distribution.png')
+        if not os.path.exists(EDA_PRE_OUTPATH):
+            os.mkdir(EDA_PRE_OUTPATH)
+        plt.savefig(EDA_PRE_OUTPATH + '/rpg_distribution.png')
     plt.show()
     return
 
@@ -439,9 +439,9 @@ def ypg_distribution(savefig = False):
     if savefig:
         if not os.path.exists(VIZ_OUTPATH):
             os.mkdir(VIZ_OUTPATH)
-        if not os.path.exists(EDA_OUTPATH):
-            os.mkdir(EDA_OUTPATH)
-        plt.savefig(EDA_OUTPATH + '/ypg_distribution.png')
+        if not os.path.exists(EDA_PRE_OUTPATH):
+            os.mkdir(EDA_PRE_OUTPATH)
+        plt.savefig(EDA_PRE_OUTPATH + '/ypg_distribution.png')
     plt.show()
     return
 
@@ -468,9 +468,9 @@ def fmb_distribution(savefig = False):
     if savefig:
         if not os.path.exists(VIZ_OUTPATH):
             os.mkdir(VIZ_OUTPATH)
-        if not os.path.exists(EDA_OUTPATH):
-            os.mkdir(EDA_OUTPATH)
-        plt.savefig(EDA_OUTPATH + '/fmb_distribution.png')
+        if not os.path.exists(EDA_PRE_OUTPATH):
+            os.mkdir(EDA_PRE_OUTPATH)
+        plt.savefig(EDA_PRE_OUTPATH + '/fmb_distribution.png')
     plt.show()
     return
 
@@ -499,9 +499,9 @@ def ctr_distribution(savefig = False):
     if savefig:
         if not os.path.exists(VIZ_OUTPATH):
             os.mkdir(VIZ_OUTPATH)
-        if not os.path.exists(EDA_OUTPATH):
-            os.mkdir(EDA_OUTPATH)
-        plt.savefig(EDA_OUTPATH + '/ctr_distribution.png')
+        if not os.path.exists(EDA_PRE_OUTPATH):
+            os.mkdir(EDA_PRE_OUTPATH)
+        plt.savefig(EDA_PRE_OUTPATH + '/ctr_distribution.png')
     plt.show()
     return
 
@@ -528,9 +528,9 @@ def dyar_distribution(savefig = False):
     if savefig:
         if not os.path.exists(VIZ_OUTPATH):
             os.mkdir(VIZ_OUTPATH)
-        if not os.path.exists(EDA_OUTPATH):
-            os.mkdir(EDA_OUTPATH)
-        plt.savefig(EDA_OUTPATH + '/dyar_distribution.png')
+        if not os.path.exists(EDA_PRE_OUTPATH):
+            os.mkdir(EDA_PRE_OUTPATH)
+        plt.savefig(EDA_PRE_OUTPATH + '/dyar_distribution.png')
     plt.show()
     return
 
@@ -557,9 +557,9 @@ def yar_distribution(savefig = False):
     if savefig:
         if not os.path.exists(VIZ_OUTPATH):
             os.mkdir(VIZ_OUTPATH)
-        if not os.path.exists(EDA_OUTPATH):
-            os.mkdir(EDA_OUTPATH)
-        plt.savefig(EDA_OUTPATH + '/yar_distribution.png')
+        if not os.path.exists(EDA_PRE_OUTPATH):
+            os.mkdir(EDA_PRE_OUTPATH)
+        plt.savefig(EDA_PRE_OUTPATH + '/yar_distribution.png')
     plt.show()
     return
 
@@ -586,9 +586,9 @@ def eyds_distribution(savefig = False):
     if savefig:
         if not os.path.exists(VIZ_OUTPATH):
             os.mkdir(VIZ_OUTPATH)
-        if not os.path.exists(EDA_OUTPATH):
-            os.mkdir(EDA_OUTPATH)
-        plt.savefig(EDA_OUTPATH + '/eyds_distribution.png')
+        if not os.path.exists(EDA_PRE_OUTPATH):
+            os.mkdir(EDA_PRE_OUTPATH)
+        plt.savefig(EDA_PRE_OUTPATH + '/eyds_distribution.png')
     plt.show()
     return
 
@@ -617,9 +617,9 @@ def dvoa_distribution(savefig = False):
     if savefig:
         if not os.path.exists(VIZ_OUTPATH):
             os.mkdir(VIZ_OUTPATH)
-        if not os.path.exists(EDA_OUTPATH):
-            os.mkdir(EDA_OUTPATH)
-        plt.savefig(EDA_OUTPATH + '/dvoa_distribution.png')
+        if not os.path.exists(EDA_PRE_OUTPATH):
+            os.mkdir(EDA_PRE_OUTPATH)
+        plt.savefig(EDA_PRE_OUTPATH + '/dvoa_distribution.png')
     plt.show()
     return
 
@@ -648,8 +648,8 @@ def voa_distribution(savefig = False):
     if savefig:
         if not os.path.exists(VIZ_OUTPATH):
             os.mkdir(VIZ_OUTPATH)
-        if not os.path.exists(EDA_OUTPATH):
-            os.mkdir(EDA_OUTPATH)
-        plt.savefig(EDA_OUTPATH + '/voa_distribution.png')
+        if not os.path.exists(EDA_PRE_OUTPATH):
+            os.mkdir(EDA_PRE_OUTPATH)
+        plt.savefig(EDA_PRE_OUTPATH + '/voa_distribution.png')
     plt.show()
     return

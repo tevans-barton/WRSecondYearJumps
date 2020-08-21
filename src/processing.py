@@ -24,7 +24,9 @@ TEAM_DICT = {
         'STL' : 'LAR',
         'SF' : 'SFO',
         'TB' : 'TAM',
-        '2TM' : np.nan
+        '2TM' : np.nan,
+        '3TM' : np.nan,
+        '4TM' : np.nan
     }
 #Helper function to transform the player names into the advanced stat formats
 def clean_player_name(players):
@@ -148,6 +150,11 @@ def merge_data():
     df['Rec Pts Jump'] = df['Rec Pts Second Season'] - df['Rec Pts First Season']
     #Merge in the advanced stats from each player's first year
     df = df.merge(adv_stats, how = 'left', left_on = ['Player', 'Tm', 'First Year'], right_on = ['Player', 'Team', 'YEAR'])
+    #Drop rows with key null entries
+    df = df[~df[['Rnd', 'Pick', 'Team', 'Player', 'First Year', 'Age Draft', 'G', 'GS', 'Tgt', 
+                    'Rec', 'Ctch%', 'Yds', 'Y/R', 'TD', '1D', 'Lng', 'Y/Tgt', 'R/G', 'Y/G', 
+                    'DYAR', 'YAR', 'DVOA', 'VOA', 'EYds', 'DPI Pens', 
+                    'DPI Yds', 'Rec Pts First Season']].isnull().any(axis = 1)].reset_index(drop = True)
     #Remove redundant columns and put the remaining ones in an aesthetic order
     col_order = ['Rnd', 'Pick', 'Team', 'Player', 'First Year', 'Age Draft', 'G', 'GS', 'Tgt', 
                     'Rec', 'Ctch%', 'Yds', 'Y/R', 'TD', '1D', 'Lng', 'Y/Tgt', 'R/G', 'Y/G', 

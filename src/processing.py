@@ -86,6 +86,8 @@ def clean_stats():
     rec_stats['Ctch%'] = pd.to_numeric(rec_stats['Ctch%'].str.replace('%', ''))
     #Want a column for slightly altered fantasy points, taking into account only yards and touchdowns
     rec_stats['Rec Pts'] = rec_stats['TD'] * PTS_FOR_TD + rec_stats['Yds'] / YDS_PER_POINT
+    #Want a column for slightly altered fantasy points per game, taking into account only yards and touchdowns
+    rec_stats['Rec Pts/G'] = rec_stats['Rec Pts'] / rec_stats['G']
     #Save the dataframe to  a CSV in the data/interim directory
     if not os.path.exists(INTERIM_OUTPATH):
         os.mkdir(INTERIM_OUTPATH)
@@ -141,13 +143,11 @@ def merge_data():
     #Remove all receivers who did not have rookie year data
     temp = temp[~temp.isnull().any(axis = 1)].reset_index(drop = True)
     #Take our dataframe with first year stats and merge in second year Rec Pts
-    sec_yr = rec_stats[['Player', 'Tm', 'YEAR', 'Rec Pts']]
+    sec_yr = rec_stats[['Player', 'Tm', 'YEAR', 'Rec Pts', 'Rec Pts/G']]
     df = temp.merge(sec_yr, how = 'left', left_on = ['Player', 'Tm', 'Second Year'], 
                                         right_on = ['Player', 'Tm', 'YEAR'], suffixes = [' First Season', ' Second Season'])
     #Get rid of entries where the receiver should have had their second year, but has no stats for that year
     df = df[~((df['Second Year'] < CURRENT_YEAR) & (df['Rec Pts Second Season'].isnull()))].reset_index(drop = True)
-    #Create a Rec Pts Jump column
-    df['Rec Pts Jump'] = df['Rec Pts Second Season'] - df['Rec Pts First Season']
     #Merge in the advanced stats from each player's first year
     df = df.merge(adv_stats, how = 'left', left_on = ['Player', 'Tm', 'First Year'], right_on = ['Player', 'Team', 'YEAR'])
     #Drop rows with key null entries
@@ -159,7 +159,8 @@ def merge_data():
     col_order = ['Rnd', 'Pick', 'Team', 'Player', 'First Year', 'Age Draft', 'G', 'GS', 'Tgt', 
                     'Rec', 'Ctch%', 'Yds', 'Y/R', 'TD', '1D', 'Lng', 'Y/Tgt', 'R/G', 'Y/G', 
                     'DYAR', 'YAR', 'DVOA', 'VOA', 'EYds', 'DPI Pens', 
-                    'DPI Yds', 'Rec Pts First Season', 'Rec Pts Second Season', 'Rec Pts Jump']
+                    'DPI Yds', 'Rec Pts First Season', 'Rec Pts/G First Season', 
+                    'Rec Pts Second Season', 'Rec Pts/G Second Season']
     df = df[col_order]
     #Save the dataframe to  a CSV in the data/interim directory
     if not os.path.exists(FINAL_OUTPATH):

@@ -1,7 +1,8 @@
 #@Tommy Evans-Barton
 #This code was written to scrape spotrac (as allowed by their robots.txt) for the data
 #that will be uploaded with this project, as HTML scraping can be semi-discontinuous,
-#and it is only a small filesize
+#and it is only a small filesize. Essentially this code is only included in the project as
+#elementary/educational/due diligence
 
 import os
 import pandas as pd
@@ -55,7 +56,7 @@ def get_upload_data():
     df.columns = ['Player', 'Pos', 'From', 'To']
     return df
 
-def clean_upload_data():
+def clean_download_upload_data():
     #Read in data
     df = get_upload_data()
     #Get the player column
@@ -70,7 +71,6 @@ def clean_upload_data():
     cap_ind = [[i for i, c in enumerate(s) if c.isupper()] for s in players]
     players = [players[i][0 : cap_ind[i][1]] + ' ' + players[i][cap_ind[i][1] : ] for i in range(len(cap_ind))]
     df['Player'] = players
-
     #Change the team names to be standard with the other data
     team_dict = {
         'GB' : 'GNB',
@@ -82,11 +82,11 @@ def clean_upload_data():
         'SF' : 'SFO',
         'TB' : 'TAM'
     }
-    df['From'] = df['From'].replace(team_dict)
-    df['To'] = df['To'].replace(team_dict)
-    #Drop position because it isn't necessary
-    df.drop(['Pos'], axis = 1, inplace = True)
+    df['Tm'] = df['To'].replace(team_dict)
+    #Drop unnecessary columns
+    df.drop(['From', 'To'], axis = 1, inplace = True)
     #Make directory and save dataframe as CSV file
+    df['YEAR'] = [2020] * len(df)
     if not os.path.exists(TOP_PATH + '/data'):
         os.mkdir(TOP_PATH + '/data')
     if not os.path.exists(OUTPATH):

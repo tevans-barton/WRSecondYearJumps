@@ -110,6 +110,16 @@ def tm_share_cols(df):
 
 #Create the incoming/outgoing stat shares columns
 def in_out_stats_cols(df):
+    #Make dictionaries for each statistic of the form {(<TEAM>, <YEAR>) : STAT}
+    wr_tgt_dict = df[['Tm', 'YEAR', 'Tgt']].groupby(['Tm', 'YEAR']).sum()['Tgt'].to_dict()
+    wr_yards_dict = df[['Tm', 'YEAR', 'Yds']].groupby(['Tm', 'YEAR']).sum()['Yds'].to_dict()
+    wr_td_dict = df[['Tm', 'YEAR', 'TD']].groupby(['Tm', 'YEAR']).sum()['TD'].to_dict()
+    wr_rec_dict = df[['Tm', 'YEAR', 'Rec']].groupby(['Tm', 'YEAR']).sum()['Rec'].to_dict()
+    #Create series of the stats by teams in order to create the share columns
+    tgt_by_team_series = pd.Series(df.set_index(['Tm', 'YEAR']).index.map(wr_tgt_dict))
+    yds_by_team_series = pd.Series(df.set_index(['Tm', 'YEAR']).index.map(wr_yards_dict))
+    td_by_team_series = pd.Series(df.set_index(['Tm', 'YEAR']).index.map(wr_td_dict))
+    rec_by_team_series = pd.Series(df.set_index(['Tm', 'YEAR']).index.map(wr_rec_dict))
     #Create a temporary dataframe that only holds the relevant stats of the entries where a receiver is switching teams
     #the following year
     temp = df[~(df['Tm'] == df['Next Years Team'])][['Player', 'WR Tgt Share', 'WR Yds Share', 
@@ -127,10 +137,16 @@ def in_out_stats_cols(df):
     wr_yds_share_incoming = df.set_index(['Next Years Team', 'YEAR']).index.map(in_stats['WR Yds Share']).fillna(0)
     wr_td_share_incoming = df.set_index(['Next Years Team', 'YEAR']).index.map(in_stats['WR TD Share']).fillna(0)
     wr_rec_share_incoming = df.set_index(['Next Years Team', 'YEAR']).index.map(in_stats['WR Rec Share']).fillna(0)
-    df['Tgt Share Difference'] = wr_tgt_share_departing - wr_tgt_share_incoming + df['WR Tgt Share']
-    df['Yds Share Difference'] = wr_yds_share_departing - wr_yds_share_incoming + df['WR Yds Share']
-    df['TD Share Difference'] = wr_td_share_departing - wr_td_share_incoming + df['WR TD Share']
-    df['Rec Share Difference'] = wr_rec_share_departing - wr_rec_share_incoming + df['WR Rec Share']
+    #Make columns for each of the projected stat shares, based on offseason moves
+    df['Projected Tgt Share'] = wr_tgt_share_departing - wr_tgt_share_incoming + df['WR Tgt Share']
+    df['Projected Yds Share'] = wr_yds_share_departing - wr_yds_share_incoming + df['WR Yds Share']
+    df['Projected TD Share'] = wr_td_share_departing - wr_td_share_incoming + df['WR TD Share']
+    df['Projected Rec Share'] = wr_rec_share_departing - wr_rec_share_incoming + df['WR Rec Share']
+    #Make columns for each of the projected stats, based on offseason moves and team stats
+    df['Projected Tgt'] = df['Projected Tgt Share'] * tgt_by_team_series
+    df['Projected Yds'] = df['Projected Yds Share'] * yds_by_team_series
+    df['Projected TD'] = df['Projected TD Share'] * td_by_team_series
+    df['Projected Rec'] = df['Projected Rec Share'] * rec_by_team_series
     return df
 
 #Function for cleaning the receivers statistics dataframe
@@ -243,8 +259,9 @@ def merge_data():
     col_order = ['Rnd', 'Pick', 'Team', 'Player', 'First Year', 'Age Draft', 'G', 'GS', 'Tgt', 'WR Tgt Share',
                     'Rec', 'WR Rec Share', 'Ctch%', 'Yds', 'WR Yds Share', 'Y/R', 'TD', 'WR TD Share', '1D', 
                     'Lng', 'Y/Tgt', 'R/G', 'Y/G', 'DYAR', 'YAR', 'DVOA', 'VOA', 'EYds', 'DPI Pens', 
-                    'DPI Yds', 'Tgt Share Difference', 'Rec Share Difference', 'Yds Share Difference', 
-                    'TD Share Difference', 'Rec Pts First Season', 'Rec Pts/G First Season', 'Rec Pts Second Season', 
+                    'DPI Yds', 'Projected Tgt Share', 'Projected Tgt', 'Projected Rec Share', 'Projected Rec', 
+                    'Projected Yds Share', 'Projected Yds', 'Projected TD Share', 'Projected TD', 
+                    'Rec Pts First Season', 'Rec Pts/G First Season', 'Rec Pts Second Season', 
                     'Rec Pts/G Second Season']
     df = df[col_order]
     #Save the dataframe to  a CSV in the data/interim directory

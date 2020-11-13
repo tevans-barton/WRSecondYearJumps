@@ -20,18 +20,14 @@ def game_distribution(savefig = False):
         return
     #Get the two different subsets of the data
     df_model = df[df['First Year'] < 2019].reset_index(drop = True)
-    df_prediction = df[df['First Year'] == 2019].reset_index(drop = True)
     #Change the size of the figure
     plt.figure(figsize = (8.5, 5.5))
     #Plot the distribution of the games active for each receiver
-    #df_model['G'].hist(bins = range(0,19,2), label = 'model data', normed = 1)
-    df_prediction['G'].hist(bins = range(0, 19, 2), label = 'prediction data', normed = 1)
-    df_model['G'].hist(bins = range(0,19,2), label = 'model data', normed = 1)
-    plt.legend(loc = 'upper left')
+    df_model['G'].hist(bins = range(0,19,2), label = 'model data')
     #Label the plot
     plt.title('Distribution of Games Active', fontsize = 18)
     plt.xlabel('Games', fontsize = 14)
-    plt.ylabel('Percentage', fontsize = 14)
+    plt.ylabel('Count', fontsize = 14)
     plt.xticks(range(0,18,2), fontsize = 12, rotation = 0)
     #Tight layout to get it to save the figure correctly
     plt.tight_layout()
@@ -54,19 +50,16 @@ def gs_distribution(savefig = False):
         return
     #Get the two different subsets of the data
     df_model = df[df['First Year'] < 2019].reset_index(drop = True)
-    df_prediction = df[df['First Year'] == 2019].reset_index(drop = True)
     #Change the size of the figure
     plt.figure(figsize = (8.5, 5.5))
     #Plot the distribution of the games started for each receiver
     df_model['GS'].hist(bins = range(0,19,2), label = 'model data')
-    df_prediction['GS'].hist(bins = range(0, 19, 2), label = 'prediction data')
-    #df_model['GS'].hist(bins = range(0,19,2), label = 'model data', normed = 1)
-    plt.legend(loc = 'upper left')
     #Label the plot
     plt.title('Distribution of Games Started', fontsize = 18)
     plt.xlabel('Games Started', fontsize = 14)
-    plt.ylabel('Percentage', fontsize = 14)
+    plt.ylabel('Count', fontsize = 14)
     plt.xticks(range(0,18,2), fontsize = 12, rotation = 0)
+    plt.yticks(range(0,26,5), fontsize = 12, rotation = 0)
     #Tight layout to get it to save the figure correctly
     plt.tight_layout()
     #If safefig passed as true, save the figure to the eda visualizations folder

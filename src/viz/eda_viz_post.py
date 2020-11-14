@@ -18,7 +18,7 @@ def game_distribution(savefig = False):
     except FileNotFoundError:
         print('File Not Found Error (try running etl.get_data, processing.clean_all_data, and processing.merge_data')
         return
-    #Get the two different subsets of the data
+    #Get the subset of the data that will be used to build the model
     df_model = df[df['First Year'] < 2019].reset_index(drop = True)
     #Change the size of the figure
     plt.figure(figsize = (8.5, 5.5))
@@ -48,7 +48,7 @@ def gs_distribution(savefig = False):
     except FileNotFoundError:
         print('File Not Found Error (try running etl.get_data, processing.clean_all_data, and processing.merge_data')
         return
-    #Get the two different subsets of the data
+    #Get the subset of the data that will be used to build the model
     df_model = df[df['First Year'] < 2019].reset_index(drop = True)
     #Change the size of the figure
     plt.figure(figsize = (8.5, 5.5))
@@ -79,7 +79,7 @@ def tgt_distribution(savefig = False):
     except FileNotFoundError:
         print('File Not Found Error (try running etl.get_data, processing.clean_all_data, and processing.merge_data')
         return
-    #Get the two different subsets of the data
+    #Get the subset of the data that will be used to build the model
     df_model = df[df['First Year'] < 2019].reset_index(drop = True)
     #Change the size of the figure
     plt.figure(figsize = (8.5, 5.5))
@@ -110,7 +110,7 @@ def tgt_share_distribution(savefig = False):
     except FileNotFoundError:
         print('File Not Found Error (try running etl.get_data, processing.clean_all_data, and processing.merge_data')
         return
-    #Get the two different subsets of the data
+    #Get the subset of the data that will be used to build the model
     df_model = df[df['First Year'] < 2019].reset_index(drop = True)
     #Change the size of the figure
     plt.figure(figsize = (8.5, 5.5))
@@ -141,7 +141,7 @@ def rec_distribution(savefig = False):
     except FileNotFoundError:
         print('File Not Found Error (try running etl.get_data, processing.clean_all_data, and processing.merge_data')
         return
-    #Get the two different subsets of the data
+    #Get the subset of the data that will be used to build the model
     df_model = df[df['First Year'] < 2019].reset_index(drop = True)
     #Change the size of the figure
     plt.figure(figsize = (8.5, 5.5))

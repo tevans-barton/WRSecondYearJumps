@@ -182,8 +182,11 @@ def clean_stats():
     df = df[df['Player'] != 'Jaron Brown'].reset_index(drop = True)
     #Clean the player names to be like the advanced stat format
     df['Player'] = clean_player_name(df['Player'])
-    #Edit the Catch Rate column into a float
+    #Edit the Catch Rate column into a float, and then make it into a decimal, not a percentage
+    #and then rename it to catch rate
     df['Ctch%'] = pd.to_numeric(df['Ctch%'].str.replace('%', ''))
+    df['Ctch%'] = df['Ctch%'] / 100
+    df = df.rename({'Ctch%' : 'Catch Rate'}, axis = 1)
     #Want a column for slightly altered fantasy points, taking into account only yards and touchdowns
     df['Rec Pts'] = df['TD'] * PTS_FOR_TD + df['Yds'] / YDS_PER_POINT
     #Want a column for slightly altered fantasy points per game, taking into account only yards and touchdowns
@@ -252,12 +255,12 @@ def merge_data():
     df = df.merge(adv_stats, how = 'left', left_on = ['Player', 'Tm', 'First Year'], right_on = ['Player', 'Team', 'YEAR'])
     #Drop rows with key null entries
     df = df[~df[['Rnd', 'Pick', 'Team', 'Player', 'First Year', 'Age Draft', 'G', 'GS', 'Tgt', 
-                     'Rec', 'Ctch%', 'Yds', 'Y/R', 'TD', '1D', 'Lng', 'Y/Tgt', 'R/G', 'Y/G', 
+                     'Rec', 'Catch Rate', 'Yds', 'Y/R', 'TD', '1D', 'Lng', 'Y/Tgt', 'R/G', 'Y/G', 
                      'DYAR', 'YAR', 'DVOA', 'VOA', 'EYds', 'DPI Pens', 
                      'DPI Yds', 'Rec Pts First Season']].isnull().any(axis = 1)].reset_index(drop = True)
     #Remove redundant columns and put the remaining ones in an aesthetic order
     col_order = ['Rnd', 'Pick', 'Team', 'Player', 'First Year', 'Age Draft', 'G', 'GS', 'Tgt', 'WR Tgt Share',
-                    'Rec', 'WR Rec Share', 'Ctch%', 'Yds', 'WR Yds Share', 'Y/R', 'TD', 'WR TD Share', '1D', 
+                    'Rec', 'WR Rec Share', 'Catch Rate', 'Yds', 'WR Yds Share', 'Y/R', 'TD', 'WR TD Share', '1D', 
                     'Lng', 'Y/Tgt', 'R/G', 'Y/G', 'DYAR', 'YAR', 'DVOA', 'VOA', 'EYds', 'DPI Pens', 
                     'DPI Yds', 'Projected Tgt Share', 'Projected Tgt', 'Projected Rec Share', 'Projected Rec', 
                     'Projected Yds Share', 'Projected Yds', 'Projected TD Share', 'Projected TD', 

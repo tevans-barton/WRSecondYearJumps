@@ -115,13 +115,13 @@ def tgt_share_distribution(savefig = False):
     #Change the size of the figure
     plt.figure(figsize = (8.5, 5.5))
     #Plot the distribution of the WR target share for each receiver
-    df_model['WR Tgt Share'].hist(bins = np.arange(0, .701, .05))
+    df_model['WR Tgt Share'].hist(bins = np.arange(0, .701, .1))
     #Label the plot
     plt.title('Distribution of WR Target Share', fontsize = 18)
     plt.xlabel('WR Target Share', fontsize = 14)
     plt.ylabel('Count', fontsize = 14)
     plt.xticks(np.arange(0, .701, .1), fontsize = 12, rotation = 0)
-    plt.yticks(range(0, 31, 5), fontsize = 12, rotation = 0)
+    plt.yticks(range(0, 51, 10), fontsize = 12, rotation = 0)
     #Tight layout to get it to save the figure correctly
     plt.tight_layout()
     #If safefig passed as true, save the figure to the eda visualizations folder
@@ -131,6 +131,37 @@ def tgt_share_distribution(savefig = False):
         if not os.path.exists(EDA_POST_OUTPATH):
             os.mkdir(EDA_POST_OUTPATH)
         plt.savefig(EDA_POST_OUTPATH + '/tgtshare_distribution_modeling.png')
+    plt.show()
+    return
+
+def sqrt_tgt_share_distribution(savefig = False):
+    #Read in data
+    try:
+        df = pd.read_csv(TOP_PATH + '/data/final/FINAL_DATA.csv')
+    except FileNotFoundError:
+        print('File Not Found Error (try running etl.get_data, processing.clean_all_data, and processing.merge_data')
+        return
+    #Get the subset of the data that will be used to build the model
+    df_model = df[df['First Year'] < 2019].reset_index(drop = True)
+    #Change the size of the figure
+    plt.figure(figsize = (8.5, 5.5))
+    #Plot the distribution of the Square Root WR target share for each receiver
+    df_model['WR Tgt Share'].apply(lambda x : x**.5).hist(bins = np.arange(.1, .801, .1))
+    #Label the plot
+    plt.title('Distribution of Square Root WR Target Share', fontsize = 18)
+    plt.xlabel('Square Root WR Target Share', fontsize = 14)
+    plt.ylabel('Count', fontsize = 14)
+    plt.xticks(np.arange(.1, .801, .1), fontsize = 12, rotation = 0)
+    plt.yticks(range(0, 36, 5), fontsize = 12, rotation = 0)
+    #Tight layout to get it to save the figure correctly
+    plt.tight_layout()
+    #If safefig passed as true, save the figure to the eda visualizations folder
+    if savefig:
+        if not os.path.exists(VIZ_OUTPATH):
+            os.mkdir(VIZ_OUTPATH)
+        if not os.path.exists(EDA_POST_OUTPATH):
+            os.mkdir(EDA_POST_OUTPATH)
+        plt.savefig(EDA_POST_OUTPATH + '/sqrt_tgtshare_distribution_modeling.png')
     plt.show()
     return
 
@@ -165,6 +196,37 @@ def rec_distribution(savefig = False):
     plt.show()
     return
 
+def sqrt_rec_distribution(savefig = False):
+    #Read in data
+    try:
+        df = pd.read_csv(TOP_PATH + '/data/final/FINAL_DATA.csv')
+    except FileNotFoundError:
+        print('File Not Found Error (try running etl.get_data, processing.clean_all_data, and processing.merge_data')
+        return
+    #Get the subset of the data that will be used to build the model
+    df_model = df[df['First Year'] < 2019].reset_index(drop = True)
+    #Change the size of the figure
+    plt.figure(figsize = (8.5, 5.5))
+    #Plot the distribution of the square root of receptions for each receiver
+    df_model['Rec'].apply(lambda x : x**.5).hist(bins = range(1, 11))
+    #Label the plot
+    plt.title('Distribution of Square Root of Receptions', fontsize = 18)
+    plt.xlabel('Square Root of Receptions', fontsize = 14)
+    plt.ylabel('Count', fontsize = 14)
+    plt.xticks(range(1,11), fontsize = 12, rotation = 0)
+    plt.yticks(range(0, 31, 5), fontsize = 12, rotation = 0)
+    #Tight layout to get it to save the figure correctly
+    plt.tight_layout()
+    #If safefig passed as true, save the figure to the eda visualizations folder
+    if savefig:
+        if not os.path.exists(VIZ_OUTPATH):
+            os.mkdir(VIZ_OUTPATH)
+        if not os.path.exists(EDA_POST_OUTPATH):
+            os.mkdir(EDA_POST_OUTPATH)
+        plt.savefig(EDA_POST_OUTPATH + '/sqrt_rec_distribution_modeling.png')
+    plt.show()
+    return
+
 def recshare_distribution(savefig = False):
     #Read in data
     try:
@@ -193,6 +255,37 @@ def recshare_distribution(savefig = False):
         if not os.path.exists(EDA_POST_OUTPATH):
             os.mkdir(EDA_POST_OUTPATH)
         plt.savefig(EDA_POST_OUTPATH + '/recshare_distribution_modeling.png')
+    plt.show()
+    return
+
+def sqrt_recshare_distribution(savefig = False):
+    #Read in data
+    try:
+        df = pd.read_csv(TOP_PATH + '/data/final/FINAL_DATA.csv')
+    except FileNotFoundError:
+        print('File Not Found Error (try running etl.get_data, processing.clean_all_data, and processing.merge_data')
+        return
+    #Get the subset of the data that will be used to build the model
+    df_model = df[df['First Year'] < 2019].reset_index(drop = True)
+    #Change the size of the figure
+    plt.figure(figsize = (8.5, 5.5))
+    #Plot the distribution of the Square root of WR reception share for each receiver
+    df_model['WR Rec Share'].apply(lambda x : x**.5).hist(bins = np.arange(.1, .851, .05))
+    #Label the plot
+    plt.title('Distribution of Square Root of WR Reception Share', fontsize = 18)
+    plt.xlabel('Square Root of WR Reception Share', fontsize = 14)
+    plt.ylabel('Count', fontsize = 14)
+    plt.xticks(np.arange(.1, .901, .1), fontsize = 12, rotation = 0)
+    plt.yticks(range(0, 21, 5), fontsize = 12, rotation = 0)
+    #Tight layout to get it to save the figure correctly
+    plt.tight_layout()
+    #If safefig passed as true, save the figure to the eda visualizations folder
+    if savefig:
+        if not os.path.exists(VIZ_OUTPATH):
+            os.mkdir(VIZ_OUTPATH)
+        if not os.path.exists(EDA_POST_OUTPATH):
+            os.mkdir(EDA_POST_OUTPATH)
+        plt.savefig(EDA_POST_OUTPATH + '/sqrt_recshare_distribution_modeling.png')
     plt.show()
     return
 
@@ -259,6 +352,37 @@ def yds_distribution(savefig = False):
     plt.show()
     return
 
+def sqrt_yds_distribution(savefig = False):
+    #Read in data
+    try:
+        df = pd.read_csv(TOP_PATH + '/data/final/FINAL_DATA.csv')
+    except FileNotFoundError:
+        print('File Not Found Error (try running etl.get_data, processing.clean_all_data, and processing.merge_data')
+        return
+    #Get the subset of the data that will be used to build the model
+    df_model = df[df['First Year'] < 2019].reset_index(drop = True)
+    #Change the size of the figure
+    plt.figure(figsize = (8.5, 5.5))
+    #Plot the distribution of the square root of receiving yards for each receiver
+    df_model['Yds'].apply(lambda x : x**.5).hist(bins = range(0, 41, 5))
+    #Label the plot
+    plt.title('Distribution of Square Root of Receiving Yards', fontsize = 18)
+    plt.xlabel('Square Root of Receiving Yards', fontsize = 14)
+    plt.ylabel('Count', fontsize = 14)
+    plt.xticks(range(0, 41, 5), fontsize = 12, rotation = 0)
+    plt.yticks(range(0, 36, 5), fontsize = 12, rotation = 0)
+    #Tight layout to get it to save the figure correctly
+    plt.tight_layout()
+    #If safefig passed as true, save the figure to the eda visualizations folder
+    if savefig:
+        if not os.path.exists(VIZ_OUTPATH):
+            os.mkdir(VIZ_OUTPATH)
+        if not os.path.exists(EDA_POST_OUTPATH):
+            os.mkdir(EDA_POST_OUTPATH)
+        plt.savefig(EDA_POST_OUTPATH + '/sqrt_yds_distribution_modeling.png')
+    plt.show()
+    return
+
 def ydsshare_distribution(savefig = False):
     #Read in data
     try:
@@ -290,6 +414,37 @@ def ydsshare_distribution(savefig = False):
     plt.show()
     return
 
+def sqrt_ydsshare_distribution(savefig = False):
+    #Read in data
+    try:
+        df = pd.read_csv(TOP_PATH + '/data/final/FINAL_DATA.csv')
+    except FileNotFoundError:
+        print('File Not Found Error (try running etl.get_data, processing.clean_all_data, and processing.merge_data')
+        return
+    #Get the subset of the data that will be used to build the model
+    df_model = df[df['First Year'] < 2019].reset_index(drop = True)
+    #Change the size of the figure
+    plt.figure(figsize = (8.5, 5.5))
+    #Plot the distribution of the Square Root of WR yards share for each receiver
+    df_model['WR Yds Share'].apply(lambda x : x**.5).hist(bins = np.arange(0, .91, .1))
+    #Label the plot
+    plt.title('Distribution of Square Root of WR Yards Share', fontsize = 18)
+    plt.xlabel('Square Root of WR Yards Share', fontsize = 14)
+    plt.ylabel('Count', fontsize = 14)
+    plt.xticks(np.arange(0, .91, .1), fontsize = 12, rotation = 0)
+    plt.yticks(range(0, 36, 5), fontsize = 12, rotation = 0)
+    #Tight layout to get it to save the figure correctly
+    plt.tight_layout()
+    #If safefig passed as true, save the figure to the eda visualizations folder
+    if savefig:
+        if not os.path.exists(VIZ_OUTPATH):
+            os.mkdir(VIZ_OUTPATH)
+        if not os.path.exists(EDA_POST_OUTPATH):
+            os.mkdir(EDA_POST_OUTPATH)
+        plt.savefig(EDA_POST_OUTPATH + '/sqrt_ydsshare_distribution_modeling.png')
+    plt.show()
+    return
+
 def ypr_distribution(savefig = False):
     #Read in data
     try:
@@ -302,12 +457,12 @@ def ypr_distribution(savefig = False):
     #Change the size of the figure
     plt.figure(figsize = (8.5, 5.5))
     #Plot the distribution of the yards per reception for each receiver
-    df_model['Y/R'].hist(bins = range(4, 21, 2))
+    df_model['Y/R'].hist(bins = range(6, 21, 2))
     #Label the plot
     plt.title('Distribution of Yards per Reception', fontsize = 18)
     plt.xlabel('Yards per Reception', fontsize = 14)
     plt.ylabel('Count', fontsize = 14)
-    plt.xticks(range(4, 21, 2), fontsize = 12, rotation = 0)
+    plt.xticks(range(6, 21, 2), fontsize = 12, rotation = 0)
     plt.yticks(range(0, 41, 10), fontsize = 12, rotation = 0)
     #Tight layout to get it to save the figure correctly
     plt.tight_layout()
@@ -414,6 +569,37 @@ def firstdown_distribution(savefig = False):
     plt.show()
     return
 
+def sqrt_firstdown_distribution(savefig = False):
+    #Read in data
+    try:
+        df = pd.read_csv(TOP_PATH + '/data/final/FINAL_DATA.csv')
+    except FileNotFoundError:
+        print('File Not Found Error (try running etl.get_data, processing.clean_all_data, and processing.merge_data')
+        return
+    #Get the subset of the data that will be used to build the model
+    df_model = df[df['First Year'] < 2019].reset_index(drop = True)
+    #Change the size of the figure
+    plt.figure(figsize = (8.5, 5.5))
+    #Plot the distribution of the squre root of first downs for each receiver
+    df_model['1D'].apply(lambda x : x ** .5).hist(bins = range(1, 9))
+    #Label the plot
+    plt.title('Distribution of Square Root of First Downs', fontsize = 18)
+    plt.xlabel('Square Root of First Downs', fontsize = 14)
+    plt.ylabel('Count', fontsize = 14)
+    plt.xticks(range(1, 9), fontsize = 12, rotation = 0)
+    plt.yticks(range(0, 36, 5), fontsize = 12, rotation = 0)
+    #Tight layout to get it to save the figure correctly
+    plt.tight_layout()
+    #If safefig passed as true, save the figure to the eda visualizations folder
+    if savefig:
+        if not os.path.exists(VIZ_OUTPATH):
+            os.mkdir(VIZ_OUTPATH)
+        if not os.path.exists(EDA_POST_OUTPATH):
+            os.mkdir(EDA_POST_OUTPATH)
+        plt.savefig(EDA_POST_OUTPATH + '/sqrt_firstdown_distribution_modeling.png')
+    plt.show()
+    return
+
 def longrec_distribution(savefig = False):
     #Read in data
     try:
@@ -507,6 +693,37 @@ def recpergame_distribution(savefig = False):
     plt.show()
     return
 
+def sqrt_recpergame_distribution(savefig = False):
+    #Read in data
+    try:
+        df = pd.read_csv(TOP_PATH + '/data/final/FINAL_DATA.csv')
+    except FileNotFoundError:
+        print('File Not Found Error (try running etl.get_data, processing.clean_all_data, and processing.merge_data')
+        return
+    #Get the subset of the data that will be used to build the model
+    df_model = df[df['First Year'] < 2019].reset_index(drop = True)
+    #Change the size of the figure
+    plt.figure(figsize = (8.5, 5.5))
+    #Plot the distribution of the square root of receptions per game for each receiver
+    df_model['R/G'].apply(lambda x : x**.5).hist(bins = np.arange(.5, 3.01, .25))
+    #Label the plot
+    plt.title('Distribution of Square Root of Receptions per Game', fontsize = 18)
+    plt.xlabel('Squre Root of Receptions per Game', fontsize = 14)
+    plt.ylabel('Count', fontsize = 14)
+    plt.xticks(np.arange(.5, 3.01, .5), fontsize = 12, rotation = 0)
+    plt.yticks(range(0, 36, 5), fontsize = 12, rotation = 0)
+    #Tight layout to get it to save the figure correctly
+    plt.tight_layout()
+    #If safefig passed as true, save the figure to the eda visualizations folder
+    if savefig:
+        if not os.path.exists(VIZ_OUTPATH):
+            os.mkdir(VIZ_OUTPATH)
+        if not os.path.exists(EDA_POST_OUTPATH):
+            os.mkdir(EDA_POST_OUTPATH)
+        plt.savefig(EDA_POST_OUTPATH + '/sqrt_recpergame_distribution_modeling.png')
+    plt.show()
+    return
+
 def ypg_distribution(savefig = False):
     #Read in data
     try:
@@ -519,13 +736,13 @@ def ypg_distribution(savefig = False):
     #Change the size of the figure
     plt.figure(figsize = (8.5, 5.5))
     #Plot the distribution of the yards per game for each receiver
-    df_model['Y/G'].hist(bins = range(0, 121, 20))
+    df_model['Y/G'].hist(bins = range(0, 121, 10))
     #Label the plot
     plt.title('Distribution of Yards per Game', fontsize = 18)
     plt.xlabel('Yards per Game', fontsize = 14)
     plt.ylabel('Count', fontsize = 14)
-    plt.xticks(range(0, 141, 20), fontsize = 12, rotation = 0)
-    plt.yticks(range(0, 51, 10), fontsize = 12, rotation = 0)
+    plt.xticks(range(0, 121, 20), fontsize = 12, rotation = 0)
+    plt.yticks(range(0, 31, 10), fontsize = 12, rotation = 0)
     #Tight layout to get it to save the figure correctly
     plt.tight_layout()
     #If safefig passed as true, save the figure to the eda visualizations folder
@@ -690,6 +907,37 @@ def eyds_distribution(savefig = False):
         if not os.path.exists(EDA_POST_OUTPATH):
             os.mkdir(EDA_POST_OUTPATH)
         plt.savefig(EDA_POST_OUTPATH + '/eyds_distribution_modeling.png')
+    plt.show()
+    return
+
+def sqrt_eyds_distribution(savefig = False):
+    #Read in data
+    try:
+        df = pd.read_csv(TOP_PATH + '/data/final/FINAL_DATA.csv')
+    except FileNotFoundError:
+        print('File Not Found Error (try running etl.get_data, processing.clean_all_data, and processing.merge_data')
+        return
+    #Get the subset of the data that will be used to build the model
+    df_model = df[df['First Year'] < 2019].reset_index(drop = True)
+    #Change the size of the figure
+    plt.figure(figsize = (8.5, 5.5))
+    #Plot the distribution of the EYds for each receiver
+    df_model['EYds'].apply(lambda x : x**.5).hist(bins = range(0, 41, 5))
+    #Label the plot
+    plt.title('Distribution of Square Root of EYds', fontsize = 18)
+    plt.xlabel('Squre Root of EYds', fontsize = 14)
+    plt.ylabel('Count', fontsize = 14)
+    plt.xticks(range(0, 41, 5), fontsize = 12, rotation = 0)
+    plt.yticks(range(0, 36, 5), fontsize = 12, rotation = 0)
+    #Tight layout to get it to save the figure correctly
+    plt.tight_layout()
+    #If safefig passed as true, save the figure to the eda visualizations folder
+    if savefig:
+        if not os.path.exists(VIZ_OUTPATH):
+            os.mkdir(VIZ_OUTPATH)
+        if not os.path.exists(EDA_POST_OUTPATH):
+            os.mkdir(EDA_POST_OUTPATH)
+        plt.savefig(EDA_POST_OUTPATH + '/sqrt_eyds_distribution_modeling.png')
     plt.show()
     return
 
@@ -1034,6 +1282,37 @@ def recptsfirst_distribution(savefig = False):
     plt.show()
     return
 
+def sqrt_recptsfirst_distribution(savefig = False):
+    #Read in data
+    try:
+        df = pd.read_csv(TOP_PATH + '/data/final/FINAL_DATA.csv')
+    except FileNotFoundError:
+        print('File Not Found Error (try running etl.get_data, processing.clean_all_data, and processing.merge_data')
+        return
+    #Get the subset of the data that will be used to build the model
+    df_model = df[df['First Year'] < 2019].reset_index(drop = True)
+    #Change the size of the figure
+    plt.figure(figsize = (8.5, 5.5))
+    #Plot the distribution of the Square Root of Receiving Points in their First Year for each receiver
+    df_model['Rec Pts First Season'].apply(lambda x : x**.5).hist(bins = range(0,17,2))
+    #Label the plot
+    plt.title('Distribution of Square Root of Rec Points in First Season', fontsize = 18)
+    plt.xlabel('Square Root Rec Points in First Season', fontsize = 14)
+    plt.ylabel('Count', fontsize = 14)
+    plt.xticks(range(0, 17, 2), fontsize = 12, rotation = 0)
+    plt.yticks(range(0, 36, 5), fontsize = 12, rotation = 0)
+    #Tight layout to get it to save the figure correctly
+    plt.tight_layout()
+    #If safefig passed as true, save the figure to the eda visualizations folder
+    if savefig:
+        if not os.path.exists(VIZ_OUTPATH):
+            os.mkdir(VIZ_OUTPATH)
+        if not os.path.exists(EDA_POST_OUTPATH):
+            os.mkdir(EDA_POST_OUTPATH)
+        plt.savefig(EDA_POST_OUTPATH + '/sqrt_recptsfirst_distribution_modeling.png')
+    plt.show()
+    return
+
 def recptspergamefirst_distribution(savefig = False):
     #Read in data
     try:
@@ -1062,6 +1341,37 @@ def recptspergamefirst_distribution(savefig = False):
         if not os.path.exists(EDA_POST_OUTPATH):
             os.mkdir(EDA_POST_OUTPATH)
         plt.savefig(EDA_POST_OUTPATH + '/recptspergamefirst_distribution_modeling.png')
+    plt.show()
+    return
+
+def sqrt_recptspergamefirst_distribution(savefig = False):
+    #Read in data
+    try:
+        df = pd.read_csv(TOP_PATH + '/data/final/FINAL_DATA.csv')
+    except FileNotFoundError:
+        print('File Not Found Error (try running etl.get_data, processing.clean_all_data, and processing.merge_data')
+        return
+    #Get the subset of the data that will be used to build the model
+    df_model = df[df['First Year'] < 2019].reset_index(drop = True)
+    #Change the size of the figure
+    plt.figure(figsize = (8.5, 5.5))
+    #Plot the distribution of the Square Root of Receiving Points per game in their First Year for each receiver
+    df_model['Rec Pts/G First Season'].apply(lambda x : x ** .5).hist(bins = np.arange(0, 4.51, .5))
+    #Label the plot
+    plt.title('Distribution of Square Root of Rec Points per Game in First Season', fontsize = 18)
+    plt.xlabel('Square Root Rec Points per Game in First Season', fontsize = 14)
+    plt.ylabel('Count', fontsize = 14)
+    plt.xticks(range(0, 6), fontsize = 12, rotation = 0)
+    plt.yticks(range(0, 36, 5), fontsize = 12, rotation = 0)
+    #Tight layout to get it to save the figure correctly
+    plt.tight_layout()
+    #If safefig passed as true, save the figure to the eda visualizations folder
+    if savefig:
+        if not os.path.exists(VIZ_OUTPATH):
+            os.mkdir(VIZ_OUTPATH)
+        if not os.path.exists(EDA_POST_OUTPATH):
+            os.mkdir(EDA_POST_OUTPATH)
+        plt.savefig(EDA_POST_OUTPATH + '/sqrt_recptspergamefirst_distribution_modeling.png')
     plt.show()
     return
 

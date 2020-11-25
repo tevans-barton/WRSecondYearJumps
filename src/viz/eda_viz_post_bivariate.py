@@ -54,16 +54,27 @@ def pick_vs_target(savefig = False):
         return
     #Get the subset of the data that will be used to build the model
     df_model = df[df['First Year'] < 2019].reset_index(drop = True)
+    #Make the linear model to plot the line
+    lin_reg = LinearRegression()
+    lin_reg.fit(np.array(df_model['Pick']).reshape(-1, 1), np.array(df_model['Rec Pts/G Second Season']))
+    x_reg = np.linspace(np.min(df_model['Pick']), np.max(df_model['Pick']))
+    y_reg = lin_reg.coef_[0] * x_reg + lin_reg.intercept_
     #Change the size of the figure
     plt.figure(figsize = (8.5, 5.5))
-    #Plot the draft selection vs. rec pts/g second season
+    #Plot the Pick vs. rec pts/g second season
     plt.scatter(df_model['Pick'], df_model['Rec Pts/G Second Season'])
+    #Plot the regression line
+    (plt.plot(x_reg, y_reg, c = 'b', label = 'y $\\approx$ {m}x + {b}\n$r^2$ = {corr}'.format(m = round(lin_reg.coef_[0], 5), 
+                                                    b = round(lin_reg.intercept_, 5), 
+                                                    corr = lin_reg.score(np.array(df_model['Pick']).reshape(-1, 1), 
+                                                    df_model['Rec Pts/G Second Season']))))
     #Label the plot
-    plt.title('Draft Pick vs. Rec Pts/G Second Season', fontsize = 18)
+    plt.title('Draft Selection vs. Rec Pts/G Second Season', fontsize = 18)
     plt.xlabel('Pick', fontsize = 14)
     plt.ylabel('Rec Pts/G in Second Year', fontsize = 14)
     plt.xticks(fontsize = 12, rotation = 0)
     plt.yticks(fontsize = 12, rotation = 0)
+    plt.legend()
     #Tight layout to get it to save the figure correctly
     plt.tight_layout()
     #If safefig passed as true, save the figure to the eda visualizations folder
@@ -106,6 +117,39 @@ def age_median_targets(savefig = False):
         if not os.path.exists(EDA_POST_OUTPATH):
             os.mkdir(EDA_POST_OUTPATH)
         plt.savefig(EDA_POST_OUTPATH + '/age_vs_target.png')
+    plt.show()
+    return
+
+def year_median_targets(savefig = False):
+    #Read in data
+    try:
+        df = pd.read_csv(TOP_PATH + '/data/final/FINAL_DATA.csv')
+    except FileNotFoundError:
+        print('File Not Found Error (try running etl.get_data, processing.clean_all_data, and processing.merge_data')
+        return
+    #Get the subset of the data that will be used to build the model
+    df_model = df[df['First Year'] < 2019].reset_index(drop = True)
+    #Group by round and find the median of the target for each round
+    grouped = df_model[['First Year', 'Rec Pts/G Second Season']].groupby('First Year').median()
+    #Change the size of the figure
+    plt.figure(figsize = (8.5, 5.5))
+    #Plot the different median targets for each draft age
+    plt.bar(grouped.index.astype(str), grouped['Rec Pts/G Second Season'])
+    #Label the plot
+    plt.title('Median Rec Pts/G Second Year by First Year in the League', fontsize = 18)
+    plt.xlabel('First Year in the League', fontsize = 14)
+    plt.ylabel('Median Rec Pts/G in Second Year', fontsize = 14)
+    plt.xticks(fontsize = 12, rotation = 0)
+    plt.yticks(fontsize = 12, rotation = 0)
+    #Tight layout to get it to save the figure correctly
+    plt.tight_layout()
+    #If safefig passed as true, save the figure to the eda visualizations folder
+    if savefig:
+        if not os.path.exists(VIZ_OUTPATH):
+            os.mkdir(VIZ_OUTPATH)
+        if not os.path.exists(EDA_POST_OUTPATH):
+            os.mkdir(EDA_POST_OUTPATH)
+        plt.savefig(EDA_POST_OUTPATH + '/year_vs_target.png')
     plt.show()
     return
 

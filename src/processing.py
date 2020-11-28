@@ -258,6 +258,8 @@ def merge_data():
                      'Rec', 'Catch Rate', 'Yds', 'Y/R', 'TD', '1D', 'Lng', 'Y/Tgt', 'R/G', 'Y/G', 
                      'DYAR', 'YAR', 'DVOA', 'VOA', 'EYds', 'DPI Pens', 
                      'DPI Yds', 'Rec Pts First Season']].isnull().any(axis = 1)].reset_index(drop = True)
+    #Drop Eddie Royal from the Dataframe, as he is a very large outlier
+    df = df[df['Player'] != 'E.Royal']
     #Remove redundant columns and put the remaining ones in an aesthetic order
     col_order = ['Rnd', 'Pick', 'Team', 'Player', 'First Year', 'Age Draft', 'G', 'GS', 'Tgt', 'WR Tgt Share',
                     'Rec', 'WR Rec Share', 'Catch Rate', 'Yds', 'WR Yds Share', 'Y/R', 'TD', 'WR TD Share', '1D', 
@@ -266,7 +268,7 @@ def merge_data():
                     'Projected Yds Share', 'Projected Yds', 'Projected TD Share', 'Projected TD', 
                     'Rec Pts First Season', 'Rec Pts/G First Season', 'Rec Pts Second Season', 
                     'Rec Pts/G Second Season']
-    df = df[col_order]
+    df = df[col_order].reset_index(drop = True)
     #Save the dataframe to  a CSV in the data/interim directory
     if not os.path.exists(FINAL_OUTPATH):
         os.mkdir(FINAL_OUTPATH)

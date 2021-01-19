@@ -786,6 +786,37 @@ def dyar_distribution(savefig = False):
     plt.show()
     return
 
+def logshift_dyar_distribution(savefig = False):
+    #Read in data
+    try:
+        df = pd.read_csv(TOP_PATH + '/data/final/FINAL_DATA.csv')
+    except FileNotFoundError:
+        print('File Not Found Error (try running etl.get_data, processing.clean_all_data, and processing.merge_data')
+        return
+    #Get the subset of the data that will be used to build the model
+    df_model = df[df['First Year'] < 2019].reset_index(drop = True)
+    #Change the size of the figure
+    plt.figure(figsize = (8.5, 5.5))
+    #Plot the distribution of the Shifted and Logged DYAR for each receiver
+    df_model['DYAR'].apply(lambda x : np.log(x + 200)).hist(bins = np.arange(4, 6.6, .25))
+    #Label the plot
+    plt.title('Distribution of Log-Shift DYAR', fontsize = 18)
+    plt.xlabel('Log-Shift DYAR', fontsize = 14)
+    plt.ylabel('Count', fontsize = 14)
+    plt.xticks(np.arange(4, 6.6, .25), fontsize = 12, rotation = 0)
+    plt.yticks(range(0, 31, 5), fontsize = 12, rotation = 0)
+    #Tight layout to get it to save the figure correctly
+    plt.tight_layout()
+    #If safefig passed as true, save the figure to the eda visualizations folder
+    if savefig:
+        if not os.path.exists(VIZ_OUTPATH):
+            os.mkdir(VIZ_OUTPATH)
+        if not os.path.exists(EDA_POST_OUTPATH):
+            os.mkdir(EDA_POST_OUTPATH)
+        plt.savefig(EDA_POST_OUTPATH + '/logshift_dyar_distribution_modeling.png')
+    plt.show()
+    return
+
 def yar_distribution(savefig = False):
     #Read in data
     try:
@@ -814,6 +845,37 @@ def yar_distribution(savefig = False):
         if not os.path.exists(EDA_POST_OUTPATH):
             os.mkdir(EDA_POST_OUTPATH)
         plt.savefig(EDA_POST_OUTPATH + '/yar_distribution_modeling.png')
+    plt.show()
+    return
+
+def logshift_yar_distribution(savefig = False):
+    #Read in data
+    try:
+        df = pd.read_csv(TOP_PATH + '/data/final/FINAL_DATA.csv')
+    except FileNotFoundError:
+        print('File Not Found Error (try running etl.get_data, processing.clean_all_data, and processing.merge_data')
+        return
+    #Get the subset of the data that will be used to build the model
+    df_model = df[df['First Year'] < 2019].reset_index(drop = True)
+    #Change the size of the figure
+    plt.figure(figsize = (8.5, 5.5))
+    #Plot the distribution of the Shifted Log of YAR for each receiver
+    df_model['YAR'].apply(lambda x : np.log(x+200)).hist(bins = np.arange(4.25, 6.6, .25))
+    #Label the plot
+    plt.title('Distribution of Log-Shift YAR', fontsize = 18)
+    plt.xlabel('Log-Shift YAR', fontsize = 14)
+    plt.ylabel('Count', fontsize = 14)
+    plt.xticks(np.arange(4.25, 6.6, .25), fontsize = 12, rotation = 0)
+    plt.yticks(range(0, 31, 5), fontsize = 12, rotation = 0)
+    #Tight layout to get it to save the figure correctly
+    plt.tight_layout()
+    #If safefig passed as true, save the figure to the eda visualizations folder
+    if savefig:
+        if not os.path.exists(VIZ_OUTPATH):
+            os.mkdir(VIZ_OUTPATH)
+        if not os.path.exists(EDA_POST_OUTPATH):
+            os.mkdir(EDA_POST_OUTPATH)
+        plt.savefig(EDA_POST_OUTPATH + '/logshift_yar_distribution_modeling.png')
     plt.show()
     return
 
@@ -921,11 +983,11 @@ def sqrt_eyds_distribution(savefig = False):
     df_model = df[df['First Year'] < 2019].reset_index(drop = True)
     #Change the size of the figure
     plt.figure(figsize = (8.5, 5.5))
-    #Plot the distribution of the EYds for each receiver
+    #Plot the distribution of the Square Root of EYds for each receiver
     df_model['EYds'].apply(lambda x : x**.5).hist(bins = range(0, 41, 5))
     #Label the plot
     plt.title('Distribution of Square Root of EYds', fontsize = 18)
-    plt.xlabel('Squre Root of EYds', fontsize = 14)
+    plt.xlabel('Square Root of EYds', fontsize = 14)
     plt.ylabel('Count', fontsize = 14)
     plt.xticks(range(0, 41, 5), fontsize = 12, rotation = 0)
     plt.yticks(range(0, 36, 5), fontsize = 12, rotation = 0)
@@ -938,6 +1000,68 @@ def sqrt_eyds_distribution(savefig = False):
         if not os.path.exists(EDA_POST_OUTPATH):
             os.mkdir(EDA_POST_OUTPATH)
         plt.savefig(EDA_POST_OUTPATH + '/sqrt_eyds_distribution_modeling.png')
+    plt.show()
+    return
+
+def eydspg_distribution(savefig = False):
+    #Read in data
+    try:
+        df = pd.read_csv(TOP_PATH + '/data/final/FINAL_DATA.csv')
+    except FileNotFoundError:
+        print('File Not Found Error (try running etl.get_data, processing.clean_all_data, and processing.merge_data')
+        return
+    #Get the subset of the data that will be used to build the model
+    df_model = df[df['First Year'] < 2019].reset_index(drop = True)
+    #Change the size of the figure
+    plt.figure(figsize = (8.5, 5.5))
+    #Plot the distribution of the EYds/G for each receiver
+    df_model['EYds/G'].hist(bins = range(0, 121, 20))
+    #Label the plot
+    plt.title('Distribution of EYds per Game', fontsize = 18)
+    plt.xlabel('EYds/G', fontsize = 14)
+    plt.ylabel('Count', fontsize = 14)
+    plt.xticks(range(0, 121, 20), fontsize = 12, rotation = 0)
+    plt.yticks(range(0, 51, 10), fontsize = 12, rotation = 0)
+    #Tight layout to get it to save the figure correctly
+    plt.tight_layout()
+    #If safefig passed as true, save the figure to the eda visualizations folder
+    if savefig:
+        if not os.path.exists(VIZ_OUTPATH):
+            os.mkdir(VIZ_OUTPATH)
+        if not os.path.exists(EDA_POST_OUTPATH):
+            os.mkdir(EDA_POST_OUTPATH)
+        plt.savefig(EDA_POST_OUTPATH + '/eydspg_distribution_modeling.png')
+    plt.show()
+    return
+
+def sqrt_eydspg_distribution(savefig = False):
+    #Read in data
+    try:
+        df = pd.read_csv(TOP_PATH + '/data/final/FINAL_DATA.csv')
+    except FileNotFoundError:
+        print('File Not Found Error (try running etl.get_data, processing.clean_all_data, and processing.merge_data')
+        return
+    #Get the subset of the data that will be used to build the model
+    df_model = df[df['First Year'] < 2019].reset_index(drop = True)
+    #Change the size of the figure
+    plt.figure(figsize = (8.5, 5.5))
+    #Plot the distribution of the Square Root of EYds/G for each receiver
+    df_model['EYds/G'].apply(lambda x : x**.5).hist(bins = range(0, 13))
+    #Label the plot
+    plt.title('Distribution of Square Root of EYds per Game', fontsize = 18)
+    plt.xlabel('Square Root of EYds per Game', fontsize = 14)
+    plt.ylabel('Count', fontsize = 14)
+    plt.xticks(range(0, 13, 2), fontsize = 12, rotation = 0)
+    plt.yticks(range(0, 31, 10), fontsize = 12, rotation = 0)
+    #Tight layout to get it to save the figure correctly
+    plt.tight_layout()
+    #If safefig passed as true, save the figure to the eda visualizations folder
+    if savefig:
+        if not os.path.exists(VIZ_OUTPATH):
+            os.mkdir(VIZ_OUTPATH)
+        if not os.path.exists(EDA_POST_OUTPATH):
+            os.mkdir(EDA_POST_OUTPATH)
+        plt.savefig(EDA_POST_OUTPATH + '/sqrt_eydspg_distribution_modeling.png')
     plt.show()
     return
 

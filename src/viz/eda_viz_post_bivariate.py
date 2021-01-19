@@ -868,7 +868,7 @@ def ypg_vs_target(savefig = False):
     plt.show()
     return
 
-def dyar_vs_target(savefig = False):
+def logshift_dyar_vs_target(savefig = False):
     #Read in data
     try:
         df = pd.read_csv(TOP_PATH + '/data/final/FINAL_DATA.csv')
@@ -879,21 +879,21 @@ def dyar_vs_target(savefig = False):
     df_model = df[df['First Year'] < 2019].reset_index(drop = True)
     #Make the linear model to plot the line
     lin_reg = LinearRegression()
-    lin_reg.fit(np.array(df_model['DYAR']).reshape(-1, 1), np.array(df_model['Rec Pts/G Second Season']))
-    x_reg = np.linspace(np.min(df_model['DYAR']), np.max(df_model['DYAR']))
+    lin_reg.fit(np.array(df_model['DYAR'].apply(lambda x : np.log(x + 200))).reshape(-1, 1), np.array(df_model['Rec Pts/G Second Season']))
+    x_reg = np.linspace(np.min(df_model['DYAR'].apply(lambda x : np.log(x + 200))), np.max(df_model['DYAR'].apply(lambda x : np.log(x + 200))))
     y_reg = lin_reg.coef_[0] * x_reg + lin_reg.intercept_
     #Change the size of the figure
     plt.figure(figsize = (8.5, 5.5))
-    #Plot the DYAR vs. rec pts/g second season
-    plt.scatter(df_model['DYAR'], df_model['Rec Pts/G Second Season'])
+    #Plot the Log-Shift DYAR vs. rec pts/g second season
+    plt.scatter(df_model['DYAR'].apply(lambda x : np.log(x + 200)), df_model['Rec Pts/G Second Season'])
     #Plot the regression line
     (plt.plot(x_reg, y_reg, c = 'b', label = 'y $\\approx$ {m}x + {b}\n$r^2$ = {corr}'.format(m = round(lin_reg.coef_[0], 5), 
                                                     b = round(lin_reg.intercept_, 5), 
-                                                    corr = lin_reg.score(np.array(df_model['DYAR']).reshape(-1, 1), 
+                                                    corr = lin_reg.score(np.array(df_model['DYAR'].apply(lambda x : np.log(x + 200))).reshape(-1, 1), 
                                                     df_model['Rec Pts/G Second Season']))))
     #Label the plot
-    plt.title('DYAR vs. Rec Pts/G Second Season', fontsize = 18)
-    plt.xlabel('DYAR', fontsize = 14)
+    plt.title('Log-Shift DYAR vs. Rec Pts/G Second Season', fontsize = 18)
+    plt.xlabel('Log-Shift DYAR', fontsize = 14)
     plt.ylabel('Rec Pts/G in Second Year', fontsize = 14)
     plt.xticks(fontsize = 12, rotation = 0)
     plt.yticks(fontsize = 12, rotation = 0)
@@ -906,11 +906,11 @@ def dyar_vs_target(savefig = False):
             os.mkdir(VIZ_OUTPATH)
         if not os.path.exists(EDA_POST_OUTPATH):
             os.mkdir(EDA_POST_OUTPATH)
-        plt.savefig(EDA_POST_OUTPATH + '/dyar_vs_target.png')
+        plt.savefig(EDA_POST_OUTPATH + '/logshift_dyar_vs_target.png')
     plt.show()
     return
 
-def yar_vs_target(savefig = False):
+def logshift_yar_vs_target(savefig = False):
     #Read in data
     try:
         df = pd.read_csv(TOP_PATH + '/data/final/FINAL_DATA.csv')
@@ -921,21 +921,21 @@ def yar_vs_target(savefig = False):
     df_model = df[df['First Year'] < 2019].reset_index(drop = True)
     #Make the linear model to plot the line
     lin_reg = LinearRegression()
-    lin_reg.fit(np.array(df_model['YAR']).reshape(-1, 1), np.array(df_model['Rec Pts/G Second Season']))
-    x_reg = np.linspace(np.min(df_model['YAR']), np.max(df_model['YAR']))
+    lin_reg.fit(np.array(df_model['YAR'].apply(lambda x : np.log(x + 200))).reshape(-1, 1), np.array(df_model['Rec Pts/G Second Season']))
+    x_reg = np.linspace(np.min(df_model['YAR'].apply(lambda x : np.log(x + 200))), np.max(df_model['YAR'].apply(lambda x : np.log(x + 200))))
     y_reg = lin_reg.coef_[0] * x_reg + lin_reg.intercept_
     #Change the size of the figure
     plt.figure(figsize = (8.5, 5.5))
-    #Plot the YAR vs. rec pts/g second season
-    plt.scatter(df_model['YAR'], df_model['Rec Pts/G Second Season'])
+    #Plot the Log Shift YAR vs. rec pts/g second season
+    plt.scatter(df_model['YAR'].apply(lambda x : np.log(x + 200)), df_model['Rec Pts/G Second Season'])
     #Plot the regression line
     (plt.plot(x_reg, y_reg, c = 'b', label = 'y $\\approx$ {m}x + {b}\n$r^2$ = {corr}'.format(m = round(lin_reg.coef_[0], 5), 
                                                     b = round(lin_reg.intercept_, 5), 
-                                                    corr = lin_reg.score(np.array(df_model['YAR']).reshape(-1, 1), 
+                                                    corr = lin_reg.score(np.array(df_model['YAR'].apply(lambda x : np.log(x + 200))).reshape(-1, 1), 
                                                     df_model['Rec Pts/G Second Season']))))
     #Label the plot
-    plt.title('YAR vs. Rec Pts/G Second Season', fontsize = 18)
-    plt.xlabel('YAR', fontsize = 14)
+    plt.title('Log-Shift YAR vs. Rec Pts/G Second Season', fontsize = 18)
+    plt.xlabel('Log-Shift YAR', fontsize = 14)
     plt.ylabel('Rec Pts/G in Second Year', fontsize = 14)
     plt.xticks(fontsize = 12, rotation = 0)
     plt.yticks(fontsize = 12, rotation = 0)
@@ -948,7 +948,7 @@ def yar_vs_target(savefig = False):
             os.mkdir(VIZ_OUTPATH)
         if not os.path.exists(EDA_POST_OUTPATH):
             os.mkdir(EDA_POST_OUTPATH)
-        plt.savefig(EDA_POST_OUTPATH + '/yar_vs_target.png')
+        plt.savefig(EDA_POST_OUTPATH + '/logshift_yar_vs_target.png')
     plt.show()
     return
 
@@ -1078,6 +1078,51 @@ def sqrt_eyds_vs_target(savefig = False):
         if not os.path.exists(EDA_POST_OUTPATH):
             os.mkdir(EDA_POST_OUTPATH)
         plt.savefig(EDA_POST_OUTPATH + '/sqrt_eyds_vs_target.png')
+    plt.show()
+    return
+
+def sqrt_eydspg_vs_target(savefig = False):
+    #Read in data
+    try:
+        df = pd.read_csv(TOP_PATH + '/data/final/FINAL_DATA.csv')
+    except FileNotFoundError:
+        print('File Not Found Error (try running etl.get_data, processing.clean_all_data, and processing.merge_data')
+        return
+    #Get the subset of the data that will be used to build the model
+    df_model = df[df['First Year'] < 2019].reset_index(drop = True)
+    #Make the linear model to plot the line
+    lin_reg = LinearRegression()
+    lin_reg.fit(np.array(df_model['EYds/G'].apply(lambda x : x ** .5)).reshape(-1, 1), 
+                                    np.array(df_model['Rec Pts/G Second Season']))
+    x_reg = np.linspace(np.min(df_model['EYds/G'].apply(lambda x : x ** .5)), 
+                                    np.max(df_model['EYds/G'].apply(lambda x : x ** .5)))
+    y_reg = lin_reg.coef_[0] * x_reg + lin_reg.intercept_
+    #Change the size of the figure
+    plt.figure(figsize = (8.5, 5.5))
+    #Plot the Square Root of EYds per Game vs. rec pts/g second season
+    plt.scatter(df_model['EYds/G'].apply(lambda x : x **.5), df_model['Rec Pts/G Second Season'])
+    #Plot the regression line
+    (plt.plot(x_reg, y_reg, c = 'b', label = 'y $\\approx$ {m}x + {b}\n$r^2$ = {corr}'.format(m = round(lin_reg.coef_[0], 5), 
+                                                    b = round(lin_reg.intercept_, 5), 
+                                                    corr = lin_reg.score(np.array(df_model['EYds/G']
+                                                    .apply(lambda x : x ** .5)).reshape(-1, 1), 
+                                                    df_model['Rec Pts/G Second Season']))))
+    #Label the plot
+    plt.title('Square Root EYds/G vs. Rec Pts/G Second Season', fontsize = 18)
+    plt.xlabel('Square Root EYds/G', fontsize = 14)
+    plt.ylabel('Rec Pts/G in Second Year', fontsize = 14)
+    plt.xticks(fontsize = 12, rotation = 0)
+    plt.yticks(fontsize = 12, rotation = 0)
+    plt.legend()
+    #Tight layout to get it to save the figure correctly
+    plt.tight_layout()
+    #If safefig passed as true, save the figure to the eda visualizations folder
+    if savefig:
+        if not os.path.exists(VIZ_OUTPATH):
+            os.mkdir(VIZ_OUTPATH)
+        if not os.path.exists(EDA_POST_OUTPATH):
+            os.mkdir(EDA_POST_OUTPATH)
+        plt.savefig(EDA_POST_OUTPATH + '/sqrt_eydspg_vs_target.png')
     plt.show()
     return
 

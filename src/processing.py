@@ -260,10 +260,12 @@ def merge_data():
                      'DPI Yds', 'Rec Pts First Season']].isnull().any(axis = 1)].reset_index(drop = True)
     #Drop Eddie Royal from the Dataframe, as he is a very large outlier
     df = df[df['Player'] != 'E.Royal']
+    #Create an EYds/G Stat
+    df['EYds/G'] = df['EYds'] / df['G']
     #Remove redundant columns and put the remaining ones in an aesthetic order
     col_order = ['Rnd', 'Pick', 'Team', 'Player', 'First Year', 'Age Draft', 'G', 'GS', 'Tgt', 'WR Tgt Share',
                     'Rec', 'WR Rec Share', 'Catch Rate', 'Yds', 'WR Yds Share', 'Y/R', 'TD', 'WR TD Share', '1D', 
-                    'Lng', 'Y/Tgt', 'R/G', 'Y/G', 'DYAR', 'YAR', 'DVOA', 'VOA', 'EYds', 'DPI Pens', 
+                    'Lng', 'Y/Tgt', 'R/G', 'Y/G', 'DYAR', 'YAR', 'DVOA', 'VOA', 'EYds', 'EYds/G', 'DPI Pens', 
                     'DPI Yds', 'Projected Tgt Share', 'Projected Tgt', 'Projected Rec Share', 'Projected Rec', 
                     'Projected Yds Share', 'Projected Yds', 'Projected TD Share', 'Projected TD', 
                     'Rec Pts First Season', 'Rec Pts/G First Season', 'Rec Pts Second Season', 
